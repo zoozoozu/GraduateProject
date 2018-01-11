@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="pch">
+      <UniqueIdentifier>{d0a26452-64ee-4232-bc92-67c749a2ef6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{0f278dba-62ff-4f55-a599-3f5e079155b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework">
+      <UniqueIdentifier>{9febac1b-665d-464c-bb61-55328bcbb8d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Timer">
+      <UniqueIdentifier>{b87c7797-faaf-4e53-aac4-946e293cce6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mesh">
+      <UniqueIdentifier>{6fb05c1d-0e07-44e1-b32e-ee220462c8c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mesh\FbxMesh">
+      <UniqueIdentifier>{ed056b30-b018-4608-8696-7a69c69c189f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mesh\FbxMesh\FbxAniMesh">
+      <UniqueIdentifier>{992eee6f-ab32-4882-a3c4-d83cd4a617a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mesh\FbxMesh\FbxModelMesh">
+      <UniqueIdentifier>{5ba3c588-62e9-4431-b91c-8e13c89322fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mesh\TerrainMesh">
+      <UniqueIdentifier>{b8d29bf7-92a2-405b-a8f9-83074e241e44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mesh\SkyBoxMesh">
+      <UniqueIdentifier>{16d8231d-fa12-4f2d-86d7-f3410c850e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{b919c34f-1eaa-451b-b269-164fdf83bb57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Player">
+      <UniqueIdentifier>{98a9c24e-1390-40c0-b8b7-c8350f75741f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera\FirstPersonCamera">
+      <UniqueIdentifier>{e4f5144b-d75a-415b-ae6a-387ea7f9441a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera\SpaceShipCamera">
+      <UniqueIdentifier>{cd521a82-92f1-438d-b280-7d687cf57f72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera\ThirdPersonCamera">
+      <UniqueIdentifier>{67a2d878-acfe-4a42-932f-5086499fbdbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{7231c274-0d2c-495a-9ee7-08694819bbc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\AABBRenderShader">
+      <UniqueIdentifier>{0405427f-d5e9-42c8-9a7d-92611bf31e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\InstancingShader">
+      <UniqueIdentifier>{531d1100-4842-4aa0-b391-e735c4587a31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\PlayerShader">
+      <UniqueIdentifier>{c9e1a485-9783-43fa-ac1f-becb404b0740}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\SceneShader">
+      <UniqueIdentifier>{f7a31164-da60-4182-8a99-371613479404}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Player\TerrainPlayer">
+      <UniqueIdentifier>{76376137-dd3e-4648-b8ed-588664e9c9da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\SkyBoxShader">
+      <UniqueIdentifier>{ed24696d-4362-4199-9a42-c413a3b2d1d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\TerrainShader">
+      <UniqueIdentifier>{038dfd3a-e015-45c5-841d-d3fe7dfa44c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mesh\AABBBoundingMesh">
+      <UniqueIdentifier>{60ebf94b-841b-4e15-bdad-34ad6c7becac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\SkyBox">
+      <UniqueIdentifier>{36e6c2cf-e20f-4371-8b35-9a3c22b5a1d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{2b75d510-3e63-4dd3-a87c-673f36d98d5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Material">
+      <UniqueIdentifier>{17a7171c-0344-4932-b1db-afb2cdbc7288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Material\Texture">
+      <UniqueIdentifier>{17783e01-91a3-4f7c-9e5d-ee1b4a2c7959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\HeightMapTerrain">
+      <UniqueIdentifier>{a73fb1a0-82d5-415e-9e6e-fe24de5869fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeightMap">
+      <UniqueIdentifier>{29f77fb6-b869-44e8-9aec-36dce107c2bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\IndRes">
+      <UniqueIdentifier>{c91e4ffc-1524-4a91-9fa5-243d517f6682}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch\stdafx.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\Camera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\GameFramework.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer\Timer.h">
+      <Filter>Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh\Mesh.h">
+      <Filter>Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh\FbxMesh\FbxMesh.h">
+      <Filter>Mesh\FbxMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh\FbxMesh\FbxAniMesh\FbxAniMesh.h">
+      <Filter>Mesh\FbxMesh\FbxAniMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh\FbxMesh\FbxModelMesh\FbxModelMesh.h">
+      <Filter>Mesh\FbxMesh\FbxModelMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh\TerrainMesh\TerrainMesh.h">
+      <Filter>Mesh\TerrainMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh\SkyBoxMesh\SkyBoxMesh.h">
+      <Filter>Mesh\SkyBoxMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Object.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Player\Player.h">
+      <Filter>Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\FirstPersonCamera\FirstPersonCamera.h">
+      <Filter>Camera\FirstPersonCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\SpaceShipCamera\SpaceShipCamera.h">
+      <Filter>Camera\SpaceShipCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\ThirdPersonCamera\ThirdPersonCamera.h">
+      <Filter>Camera\ThirdPersonCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\Shader.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\AABBRenderShader\AABBRenderShader.h">
+      <Filter>Shader\AABBRenderShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\InstancingShader\InstancingShader.h">
+      <Filter>Shader\InstancingShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\PlayerShader\PlayerShader.h">
+      <Filter>Shader\PlayerShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\SceneShader\SceneShader.h">
+      <Filter>Shader\SceneShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Player\TerrainPlayer\TerrainPlayer.h">
+      <Filter>Object\Player\TerrainPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\SkyBoxShader\SkyBoxShader.h">
+      <Filter>Shader\SkyBoxShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\TerrainShader\TerrainShader.h">
+      <Filter>Shader\TerrainShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh\AABBBoundingMesh\AABBBoundingMesh.h">
+      <Filter>Mesh\AABBBoundingMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\SkyBox\SkyBox.h">
+      <Filter>Object\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Material\Material.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Material\Texture\Texture.h">
+      <Filter>Material\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\HeightMapTerrain\HeightMapTerrain.h">
+      <Filter>Object\HeightMapTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="HeightMap\HeightMap.h">
+      <Filter>HeightMap</Filter>
+    </ClInclude>
+    <ClInclude Include="RealWorld.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\IndRes\IndRes.h">
+      <Filter>Framework\IndRes</Filter>
+    </ClInclude>
+    <ClInclude Include="D2D_Operator.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="D2DLoadBitmap.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch\stdafx.cpp">
+      <Filter>pch</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\Camera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\GameFramework.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer\Timer.cpp">
+      <Filter>Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh\Mesh.cpp">
+      <Filter>Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh\FbxMesh\FbxMesh.cpp">
+      <Filter>Mesh\FbxMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh\FbxMesh\FbxAniMesh\FbxAniMesh.cpp">
+      <Filter>Mesh\FbxMesh\FbxAniMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh\FbxMesh\FbxModelMesh\FbxModelMesh.cpp">
+      <Filter>Mesh\FbxMesh\FbxModelMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh\TerrainMesh\TerrainMesh.cpp">
+      <Filter>Mesh\TerrainMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh\SkyBoxMesh\SkyBoxMesh.cpp">
+      <Filter>Mesh\SkyBoxMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Object.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Player\Player.cpp">
+      <Filter>Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\FirstPersonCamera\FirstPersonCamera.cpp">
+      <Filter>Camera\FirstPersonCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\SpaceShipCamera\SpaceShipCamera.cpp">
+      <Filter>Camera\SpaceShipCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\ThirdPersonCamera\ThirdPersonCamera.cpp">
+      <Filter>Camera\ThirdPersonCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\Shader.cpp">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\AABBRenderShader\AABBRenderShader.cpp">
+      <Filter>Shader\AABBRenderShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\InstancingShader\InstancingShader.cpp">
+      <Filter>Shader\InstancingShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\PlayerShader\PlayerShader.cpp">
+      <Filter>Shader\PlayerShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\SceneShader\SceneShader.cpp">
+      <Filter>Shader\SceneShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Player\TerrainPlayer\TerrainPlayer.cpp">
+      <Filter>Object\Player\TerrainPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\SkyBoxShader\SkyBoxShader.cpp">
+      <Filter>Shader\SkyBoxShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\TerrainShader\TerrainShader.cpp">
+      <Filter>Shader\TerrainShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh\AABBBoundingMesh\AABBBoundingMesh.cpp">
+      <Filter>Mesh\AABBBoundingMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\SkyBox\SkyBox.cpp">
+      <Filter>Object\SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Material\Material.cpp">
+      <Filter>Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Material\Texture\Texture.cpp">
+      <Filter>Material\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\HeightMapTerrain\HeightMapTerrain.cpp">
+      <Filter>Object\HeightMapTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="HeightMap\HeightMap.cpp">
+      <Filter>HeightMap</Filter>
+    </ClCompile>
+    <ClCompile Include="RealWorld.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\IndRes\IndRes.cpp">
+      <Filter>Framework\IndRes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="RealWorld.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="RealWorld.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
