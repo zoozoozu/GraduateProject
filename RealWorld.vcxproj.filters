@@ -106,6 +106,9 @@
     <Filter Include="Framework\IndRes">
       <UniqueIdentifier>{c91e4ffc-1524-4a91-9fa5-243d517f6682}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\Test">
+      <UniqueIdentifier>{ff45b533-5fa5-421c-a8e4-5c1bd13cd212}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -186,9 +189,6 @@
     <ClInclude Include="Object\SkyBox\SkyBox.h">
       <Filter>Object\SkyBox</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Scene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Material\Material.h">
       <Filter>Material</Filter>
     </ClInclude>
@@ -212,6 +212,21 @@
     </ClInclude>
     <ClInclude Include="D2DLoadBitmap.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="pch\D2D_Operator.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="pch\D2DLoadBitmap.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="pch\inlineFuncs.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Test\TestScene.h">
+      <Filter>Scene\Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -290,9 +305,6 @@
     <ClCompile Include="Object\SkyBox\SkyBox.cpp">
       <Filter>Object\SkyBox</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Scene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Material\Material.cpp">
       <Filter>Material</Filter>
     </ClCompile>
@@ -310,6 +322,12 @@
     </ClCompile>
     <ClCompile Include="Framework\IndRes\IndRes.cpp">
       <Filter>Framework\IndRes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Test\TestScene.cpp">
+      <Filter>Scene\Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

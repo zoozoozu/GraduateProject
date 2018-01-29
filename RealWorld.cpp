@@ -2,17 +2,27 @@
 //
 
 #include "stdafx.h"
-#include "RealWorld.h"
+
+#include "Framework/IndRes/IndRes.h"
+#include "Timer/Timer.h"
 #include "Framework/GameFramework.h"
+
+#include "RealWorld.h"
+
 
 #define MAX_LOADSTRING 100
 
 // Global Variables:
-HINSTANCE hInst;                                // current instance
-WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
-WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
-CGameFramework gGameFramework;
-HINSTANCE ghInstance;
+namespace
+{
+	HINSTANCE hInst;                                // current instance
+	WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
+	WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
+	
+	shared_ptr<CIndRes> ind = make_shared<CIndRes>();
+	shared_ptr<CTimer> timer = make_shared<CTimer>();
+	CGameFramework gGameFramework;
+}
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -29,6 +39,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	// TODO: Place code here.
+	if (!ind->Initialize()) return FALSE;
 
 	// Initialize global strings
 	LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -107,7 +118,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-	ghInstance = hInstance;
+	hInst = hInstance;
 
 	RECT rc = { 0, 0, FRAME_BUFFER_WIDTH, FRAME_BUFFER_HEIGHT };
 	DWORD dwStyle = WS_OVERLAPPED | WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_BORDER;
@@ -121,7 +132,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		return FALSE;
 	}
 
-	gGameFramework.OnCreate(hInstance, hMainWnd);
+	timer->SetUpdateCaptionHwnd(hMainWnd);
+	gGameFramework.OnCreate(hInstance, hMainWnd, ind, timer);
 
 	ShowWindow(hMainWnd, nCmdShow);
 	UpdateWindow(hMainWnd);

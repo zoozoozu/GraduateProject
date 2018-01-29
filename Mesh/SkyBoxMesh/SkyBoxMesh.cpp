@@ -159,32 +159,32 @@ void CSkyBoxMesh::OnChangeSkyBoxTextures(ID3D11Device *pd3dDevice, int nIndex)
 	_TCHAR pstrTextureName[80];
 	ID3D11ShaderResourceView *pd3dsrvTexture = NULL;
 	//Front
-	_stprintf_s(pstrTextureName, _T("../Assets/Image/SkyBox/Red_skybox/sky32ft.jpg"), nIndex, 80);
+	_stprintf_s(pstrTextureName, _T("Assets/Image/SkyBox/Red_skybox/sky32ft.jpg"), nIndex, 80);
 	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, pstrTextureName, NULL, NULL, &pd3dsrvTexture, NULL);
 	m_pSkyboxTexture->SetTexture(0, pd3dsrvTexture);
 	pd3dsrvTexture->Release();
 	//Back
-	_stprintf_s(pstrTextureName, _T("../Assets/Image/SkyBox/Red_skybox/sky32bk.jpg"), nIndex, 80);
+	_stprintf_s(pstrTextureName, _T("Assets/Image/SkyBox/Red_skybox/sky32bk.jpg"), nIndex, 80);
 	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, pstrTextureName, NULL, NULL, &pd3dsrvTexture, NULL);
 	m_pSkyboxTexture->SetTexture(1, pd3dsrvTexture);
 	pd3dsrvTexture->Release();
 	//Left
-	_stprintf_s(pstrTextureName, _T("../Assets/Image/SkyBox/Red_skybox/sky32rt.jpg"), nIndex, 80);
+	_stprintf_s(pstrTextureName, _T("Assets/Image/SkyBox/Red_skybox/sky32rt.jpg"), nIndex, 80);
 	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, pstrTextureName, NULL, NULL, &pd3dsrvTexture, NULL);
 	m_pSkyboxTexture->SetTexture(2, pd3dsrvTexture);
 	pd3dsrvTexture->Release();
 	//Rightww
-	_stprintf_s(pstrTextureName, _T("../Assets/Image/SkyBox/Red_skybox/sky32lf.jpg"), nIndex, 80);
+	_stprintf_s(pstrTextureName, _T("Assets/Image/SkyBox/Red_skybox/sky32lf.jpg"), nIndex, 80);
 	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, pstrTextureName, NULL, NULL, &pd3dsrvTexture, NULL);
 	m_pSkyboxTexture->SetTexture(3, pd3dsrvTexture);
 	pd3dsrvTexture->Release();
 	//Up
-	_stprintf_s(pstrTextureName, _T("../Assets/Image/SkyBox/Red_skybox/sky32up.jpg"), nIndex, 80);
+	_stprintf_s(pstrTextureName, _T("Assets/Image/SkyBox/Red_skybox/sky32up.jpg"), nIndex, 80);
 	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, pstrTextureName, NULL, NULL, &pd3dsrvTexture, NULL);
 	m_pSkyboxTexture->SetTexture(4, pd3dsrvTexture);
 	pd3dsrvTexture->Release();
 	//Down
-	_stprintf_s(pstrTextureName, _T("../Assets/Image/SkyBox/Red_skybox/sky32dn.jpg"), nIndex, 80);
+	_stprintf_s(pstrTextureName, _T("Assets/Image/SkyBox/Red_skybox/sky32dn.jpg"), nIndex, 80);
 	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, pstrTextureName, NULL, NULL, &pd3dsrvTexture, NULL);
 	m_pSkyboxTexture->SetTexture(5, pd3dsrvTexture);
 	pd3dsrvTexture->Release();

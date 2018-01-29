@@ -38,14 +38,14 @@ void CTerrainShader::BuildObjects(ID3D11Device *pd3dDevice)
 
 	CTexture *pTerrainTexture = new CTexture(2, 2, 0, 0);
 	ID3D11ShaderResourceView *pd3dsrvBaseTexture = NULL;
-	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Assets/Image/Terrain/Base_Texture.jpg"), NULL, NULL, &pd3dsrvBaseTexture, NULL);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("Assets/Image/Terrain/Base_Texture.jpg"), NULL, NULL, &pd3dsrvBaseTexture, NULL);
 	pTerrainTexture->SetTexture(0, pd3dsrvBaseTexture);
 	pTerrainTexture->SetSampler(0, pd3dBaseSamplerState);
 	pd3dsrvBaseTexture->Release();
 	pd3dBaseSamplerState->Release();
 
 	ID3D11ShaderResourceView *pd3dsrvDetailTexture = NULL;
-	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Assets/Image/Terrain/Detail_Texture_7.jpg"), NULL, NULL, &pd3dsrvDetailTexture, NULL);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("Assets/Image/Terrain/Detail_Texture_7.jpg"), NULL, NULL, &pd3dsrvDetailTexture, NULL);
 	pTerrainTexture->SetTexture(1, pd3dsrvDetailTexture);
 	pTerrainTexture->SetSampler(1, pd3dDetailSamplerState);
 	pd3dsrvDetailTexture->Release();

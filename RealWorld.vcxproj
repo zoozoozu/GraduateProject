@@ -173,9 +173,13 @@
     <ClInclude Include="Object\Player\Player.h" />
     <ClInclude Include="Object\Player\TerrainPlayer\TerrainPlayer.h" />
     <ClInclude Include="Object\SkyBox\SkyBox.h" />
+    <ClInclude Include="pch\D2DLoadBitmap.h" />
+    <ClInclude Include="pch\D2D_Operator.h" />
+    <ClInclude Include="pch\inlineFuncs.h" />
     <ClInclude Include="pch\stdafx.h" />
     <ClInclude Include="RealWorld.h" />
     <ClInclude Include="Scene\Scene.h" />
+    <ClInclude Include="Scene\Test\TestScene.h" />
     <ClInclude Include="Shader\AABBRenderShader\AABBRenderShader.h" />
     <ClInclude Include="Shader\InstancingShader\InstancingShader.h" />
     <ClInclude Include="Shader\PlayerShader\PlayerShader.h" />
@@ -212,6 +216,7 @@
     </ClCompile>
     <ClCompile Include="RealWorld.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
+    <ClCompile Include="Scene\Test\TestScene.cpp" />
     <ClCompile Include="Shader\AABBRenderShader\AABBRenderShader.cpp" />
     <ClCompile Include="Shader\InstancingShader\InstancingShader.cpp" />
     <ClCompile Include="Shader\PlayerShader\PlayerShader.cpp" />
