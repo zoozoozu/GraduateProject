@@ -176,7 +176,6 @@
     <ClInclude Include="pch\stdafx.h" />
     <ClInclude Include="RealWorld.h" />
     <ClInclude Include="Scene\Scene.h" />
-    <ClInclude Include="Scene\Test\TestScene.h" />
     <ClInclude Include="Shader\AABBRenderShader\AABBRenderShader.h" />
     <ClInclude Include="Shader\InstancingShader\InstancingShader.h" />
     <ClInclude Include="Shader\PlayerShader\PlayerShader.h" />
@@ -213,7 +212,6 @@
     </ClCompile>
     <ClCompile Include="RealWorld.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
-    <ClCompile Include="Scene\Test\TestScene.cpp" />
     <ClCompile Include="Shader\AABBRenderShader\AABBRenderShader.cpp" />
     <ClCompile Include="Shader\InstancingShader\InstancingShader.cpp" />
     <ClCompile Include="Shader\PlayerShader\PlayerShader.cpp" />
@@ -229,17 +227,6 @@
   <ItemGroup>
     <Image Include="RealWorld.ico" />
     <Image Include="small.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Effect.fx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Instancing.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Light.fx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

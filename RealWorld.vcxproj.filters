@@ -106,9 +106,6 @@
     <Filter Include="Framework\IndRes">
       <UniqueIdentifier>{c91e4ffc-1524-4a91-9fa5-243d517f6682}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Test">
-      <UniqueIdentifier>{525c2e82-bb5b-448a-8d7b-b0ffe32cf8fb}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -189,6 +186,9 @@
     <ClInclude Include="Object\SkyBox\SkyBox.h">
       <Filter>Object\SkyBox</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
     <ClInclude Include="Material\Material.h">
       <Filter>Material</Filter>
     </ClInclude>
@@ -207,17 +207,11 @@
     <ClInclude Include="Framework\IndRes\IndRes.h">
       <Filter>Framework\IndRes</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Test\TestScene.h">
-      <Filter>Scene\Test</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Scene.h">
-      <Filter>Scene</Filter>
+    <ClInclude Include="D2D_Operator.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="D2DLoadBitmap.h">
-      <Filter>pch</Filter>
-    </ClInclude>
-    <ClInclude Include="D2D_Operator.h">
-      <Filter>pch</Filter>
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -296,6 +290,9 @@
     <ClCompile Include="Object\SkyBox\SkyBox.cpp">
       <Filter>Object\SkyBox</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
     <ClCompile Include="Material\Material.cpp">
       <Filter>Material</Filter>
     </ClCompile>
@@ -314,12 +311,6 @@
     <ClCompile Include="Framework\IndRes\IndRes.cpp">
       <Filter>Framework\IndRes</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Test\TestScene.cpp">
-      <Filter>Scene\Test</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\Scene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="RealWorld.rc">
@@ -333,16 +324,5 @@
     <Image Include="RealWorld.ico">
       <Filter>리소스 파일</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Effect.fx">
-      <Filter>소스 파일</Filter>
-    </FxCompile>
-    <FxCompile Include="Instancing.hlsl">
-      <Filter>소스 파일</Filter>
-    </FxCompile>
-    <FxCompile Include="Light.fx">
-      <Filter>소스 파일</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>
