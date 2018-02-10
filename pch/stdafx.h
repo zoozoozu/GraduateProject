@@ -72,6 +72,8 @@ using namespace std;
 #include <filesystem>
 using namespace experimental::filesystem;
 
+#include "inlineFuncs.h"
+
 // ------------------------ Screen ----------------------------- //
 // 화면크기
 #define FRAME_BUFFER_WIDTH		640
@@ -110,3 +112,5 @@ DEFINE_GUID(WKPDID_D3DDebugObjectName,
 	0xa67e850a, 0xaa61, 0x4e0a, 0xbb, 0xf5, 0xac, 0xad, 0x32, 0xae, 0xf, 0xc);
 
 #define ANIFRAMETIME	0.0333333f
+
+#define TITLE_MAX_LENGTH 64
