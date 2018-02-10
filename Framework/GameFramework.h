@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Scene\Scene.h"
+#include "Scene/Scene.h"
 #include "Timer/Timer.h"
 
 class CPlayer;
@@ -9,27 +9,31 @@ class CPlayerShader;
 class CGameFramework
 {
 private:
-	HWND		m_hWnd							{ nullptr };
-	HINSTANCE	m_hInstance						{ nullptr };
+	HINSTANCE	m_hInstance;
+	HWND		m_hWnd;
 
 	int m_nWndClientWidth;
 	int m_nWndClientHeight;
 
-	ComPtr<ID3D11Device>				m_pd3dDevice					{ nullptr };
-	ComPtr<IDXGISwapChain>				m_pDXGISwapChain				{ nullptr };
-	ComPtr<ID3D11DeviceContext>			m_pd3dDeviceContext				{ nullptr };
-	ComPtr<ID3D11RenderTargetView>		m_pd3dRenderTargetView			{ nullptr };
-	
+	ID3D11Device *m_pd3dDevice;
+	IDXGISwapChain *m_pDXGISwapChain;
+	ID3D11DeviceContext *m_pd3dDeviceContext;
+	ID3D11RenderTargetView *m_pd3dRenderTargetView;
 	// 깊이 버퍼 객체 인터페이스와 뷰에 대한 포인터이다.
-	ComPtr<ID3D11Texture2D>				m_pd3dDepthStencilBuffer		{ nullptr };
-	ComPtr<ID3D11DepthStencilView>		m_pd3dDepthStencilView			{ nullptr };
+	ID3D11Texture2D *m_pd3dDepthStencilBuffer;
+	ID3D11DepthStencilView *m_pd3dDepthStencilView;
 
 	CTimer m_Timer;
-
-	list<unique_ptr<CScene>>			m_lstScenes;
-	CScene*								m_pCurrentScene					{ nullptr };
-	
+	CScene *m_pScene;
 	_TCHAR m_pszBuffer[50];
+
+	CPlayer *m_pPlayer;
+	CCamera *m_pCamera;
+
+	//마지막으로 마우스 버튼을 클릭할 때의 마우스 커서의 위치이다.
+	POINT	m_ptOldCursorPos;
+
+	CPlayerShader *m_pPlayerShader;
 
 public:
 	CGameFramework();
@@ -41,46 +45,18 @@ public:
 	bool CreateRenderTargetView();
 	bool CreateDirect3DDisplay();
 
-	// Scene Make
-	template<typename Scene>
-	Scene* BuildScene(wstring Tag, bool bChangeThis = true)
-	{
-		// Debug, Release 상관없이 컴파일 된다.
-		static_assert(is_base_of_v<CScene, Scene>, "Scene is must be based on CScene!");
-
-		unique_ptr<CScene> scene{ make_unique<Scene>() };
-		BuildScene(Tag, scene);
-		m_lstScenes.push_back(move(scene));
-		if (bChangeThis) ChangeScene(Tag);
-
-		return static_cast<Scene*>(FindScene(Tag));
-	}
-
-private:
-	void BuildScene(wstring Tag, const unique_ptr<CScene>& scene);
-
-public:
-	//void BuildObjects();
-	//void ReleaseObjects();
+	void BuildObjects();
+	void ReleaseObjects();
 
 	void ProcessInput();
 	void AnimateObjects();
 	void FrameAdvance();
 
-	bool OnProcessingMouseMessage(HWND hWnd, UINT nMessageID,
+	void OnProcessingMouseMessage(HWND hWnd, UINT nMessageID,
 		WPARAM wParam, LPARAM lParam);
-	bool OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID,
+	void OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID,
 		WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK OnProcessingWindowMessage(HWND hWnd, UINT nMessageID,
 		WPARAM wParam, LPARAM lParam);
-
-	void ChangeScene(std::wstring Tag, bool bDestroyPostScene = false);
-	CScene* FindScene(std::wstring Tag);
-
-	// Getter
-public:
-	HWND GethWnd()										const { return m_hWnd; }
-	ComPtr<ID3D11Device> GetD3DDevice()					const { return m_pd3dDevice; }
-	ComPtr<ID3D11DeviceContext> GetD3DDeviceContext()	const { return m_pd3dDeviceContext; }
 };
 
