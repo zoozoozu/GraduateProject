@@ -1,0 +1,13 @@
+diff a/RealWorld.vcxproj.filters b/RealWorld.vcxproj.filters	(rejected hunks)
+@@ -107,7 +107,11 @@
+       <UniqueIdentifier>{c91e4ffc-1524-4a91-9fa5-243d517f6682}</UniqueIdentifier>
+     </Filter>
+     <Filter Include="Scene\Test">
++<<<<<<< HEAD
+       <UniqueIdentifier>{525c2e82-bb5b-448a-8d7b-b0ffe32cf8fb}</UniqueIdentifier>
++=======
++      <UniqueIdentifier>{ff45b533-5fa5-421c-a8e4-5c1bd13cd212}</UniqueIdentifier>
++>>>>>>> 09acc2ba2b1a19d22b017c96c6b6b91f802066ff
+     </Filter>
+   </ItemGroup>
+   <ItemGroup>
