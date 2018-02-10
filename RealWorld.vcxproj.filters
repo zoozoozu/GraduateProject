@@ -107,7 +107,11 @@
       <UniqueIdentifier>{c91e4ffc-1524-4a91-9fa5-243d517f6682}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scene\Test">
+<<<<<<< HEAD
       <UniqueIdentifier>{525c2e82-bb5b-448a-8d7b-b0ffe32cf8fb}</UniqueIdentifier>
+=======
+      <UniqueIdentifier>{ff45b533-5fa5-421c-a8e4-5c1bd13cd212}</UniqueIdentifier>
+>>>>>>> 09acc2ba2b1a19d22b017c96c6b6b91f802066ff
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +223,21 @@
     <ClInclude Include="D2D_Operator.h">
       <Filter>pch</Filter>
     </ClInclude>
+    <ClInclude Include="pch\D2D_Operator.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="pch\D2DLoadBitmap.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="pch\inlineFuncs.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Test\TestScene.h">
+      <Filter>Scene\Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch\stdafx.cpp">
@@ -314,12 +333,21 @@
     <ClCompile Include="Framework\IndRes\IndRes.cpp">
       <Filter>Framework\IndRes</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Scene\Test\TestScene.cpp">
       <Filter>Scene\Test</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Scene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+=======
+    <ClCompile Include="Scene\Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Test\TestScene.cpp">
+      <Filter>Scene\Test</Filter>
+    </ClCompile>
+>>>>>>> 09acc2ba2b1a19d22b017c96c6b6b91f802066ff
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="RealWorld.rc">

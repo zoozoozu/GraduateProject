@@ -1,9 +1,15 @@
 #pragma once
+<<<<<<< HEAD
 #include "Scene\Scene.h"
 #include "Camera\Camera.h"
 
 #include "Shader\PlayerShader\PlayerShader.h"
 #include "Shader\Shader.h"
+=======
+
+#include "Scene/Scene.h"
+#include "Shader/Shader.h"
+>>>>>>> 09acc2ba2b1a19d22b017c96c6b6b91f802066ff
 
 #define MAX_LIGHTS		4 
 #define POINT_LIGHT		1.0f
@@ -39,8 +45,13 @@ struct LIGHTS
 	XMFLOAT4 m_d3dxvCameraPosition;
 };
 
+<<<<<<< HEAD
 class CTestScene
 	:public CScene
+=======
+class CTestScene 
+	: public CScene
+>>>>>>> 09acc2ba2b1a19d22b017c96c6b6b91f802066ff
 {
 private:
 	// 씬은 쉐이더들의 리스트(배열)이다.
@@ -51,6 +62,7 @@ private:
 	LIGHTS *m_pLights;
 	ID3D11Buffer *m_pd3dcbLights;
 	
+<<<<<<< HEAD
 	CAABBRenderShader *m_aabbShader;
 
 	CPlayer *m_pPlayer;
@@ -60,6 +72,10 @@ private:
 
 	//마지막으로 마우스 버튼을 클릭할 때의 마우스 커서의 위치이다.
 	POINT	m_ptOldCursorPos;
+=======
+	CCamera *m_pCamera;
+	CAABBRenderShader *m_aabbShader;
+>>>>>>> 09acc2ba2b1a19d22b017c96c6b6b91f802066ff
 
 public:
 	void CreateShaderVariables(ID3D11Device *pd3dDevice);
@@ -70,6 +86,7 @@ public:
 	CTestScene();
 	virtual ~CTestScene();
 
+<<<<<<< HEAD
 	bool OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam) override;
 	bool OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam) override;
 	bool OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)	override;
@@ -81,6 +98,20 @@ public:
 	void Render(ID3D11DeviceContext *pd3dDeviceContext) override;
 
 	void ReleaseObjects();
+=======
+	bool OnProcessingMouseMessage(HWND hWnd, UINT nMessageID,
+		WPARAM wParam, LPARAM lParam);
+	bool OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID,
+		WPARAM wParam, LPARAM lParam);
+	bool OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam);
+
+
+	void BuildObjects(ID3D11Device *pd3dDevice);
+	void ReleaseObjects();
+	bool ProcessInput();
+	void AnimateObjects(float fTimeElapsed);
+	void Render(ID3D11DeviceContext *pd3dDeviceContext, ID2D1HwndRenderTarget *pd2dRenderTarget);
+>>>>>>> 09acc2ba2b1a19d22b017c96c6b6b91f802066ff
 
 	void SetCamera(CCamera *pCamera) { m_pCamera = pCamera; }
 

@@ -1,10 +1,18 @@
 #include "stdafx.h"
 
+<<<<<<< HEAD
 #include "Framework\GameFramework.h"
 #include "Mesh/TerrainMesh/TerrainMesh.h"
 
 #include "Material/Texture/Texture.h"
 
+=======
+#include "Framework/GameFramework.h"
+#include "Framework/IndRes/IndRes.h"
+
+#include "Mesh/TerrainMesh/TerrainMesh.h"
+#include "Material/Texture/Texture.h"
+>>>>>>> 09acc2ba2b1a19d22b017c96c6b6b91f802066ff
 #include "Mesh/AABBBoundingMesh/AABBBoundingMesh.h"
 
 #include "Shader/SkyBoxShader/SkyBoxShader.h"
@@ -13,9 +21,15 @@
 #include "Shader/InstancingShader/InstancingShader.h"
 #include "Shader/SceneShader/SceneShader.h"
 #include "Shader/AABBRenderShader/AABBRenderShader.h"
+<<<<<<< HEAD
 
 #include "TestScene.h"
 
+=======
+#include "TestScene.h"
+
+
+>>>>>>> 09acc2ba2b1a19d22b017c96c6b6b91f802066ff
 void CTestScene::CreateShaderVariables(ID3D11Device * pd3dDevice)
 {
 	m_pLights = new LIGHTS;
@@ -129,6 +143,7 @@ bool CTestScene::OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM wP
 	return false;
 }
 
+<<<<<<< HEAD
 bool CTestScene::OnCreate(wstring && tag, CGameFramework * pFramework)
 {
 	if (!CScene::OnCreate(std::move(tag), pFramework)) return false;
@@ -159,6 +174,9 @@ bool CTestScene::OnCreate(wstring && tag, CGameFramework * pFramework)
 }
 
 void CTestScene::BuildObjects(ID3D11Device* pd3dDevice)
+=======
+void CTestScene::BuildObjects(ID3D11Device * pd3dDevice)
+>>>>>>> 09acc2ba2b1a19d22b017c96c6b6b91f802066ff
 {
 	//텍스쳐 맵핑에 사용할 샘플러 상태 객체를 생성한다.
 	ID3D11SamplerState *pd3dSamplerState = NULL;
@@ -187,7 +205,11 @@ void CTestScene::BuildObjects(ID3D11Device* pd3dDevice)
 	pNormalMaterial->m_Material.m_d3dxcAmbient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	pNormalMaterial->m_Material.m_d3dxcSpecular = XMFLOAT4(1.0f, 1.0f, 1.0f, 5.0f);
 	pNormalMaterial->m_Material.m_d3dxcEmissive = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 09acc2ba2b1a19d22b017c96c6b6b91f802066ff
 	m_nShaders = 4;
 	m_ppShaders = new CShader*[m_nShaders];
 
@@ -207,7 +229,11 @@ void CTestScene::BuildObjects(ID3D11Device* pd3dDevice)
 	m_ppShaders[3] = new CSceneShader();
 	m_ppShaders[3]->CreateShader(pd3dDevice);
 	m_ppShaders[3]->BuildObjects(pd3dDevice);
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 09acc2ba2b1a19d22b017c96c6b6b91f802066ff
 	CreateShaderVariables(pd3dDevice);
 }
 
@@ -221,9 +247,15 @@ void CTestScene::ReleaseObjects()
 		delete[] m_ppShaders;
 }
 
+<<<<<<< HEAD
 void CTestScene::ProcessInput(float fTimeElapsed)
 {
 	
+=======
+bool CTestScene::ProcessInput()
+{
+	return false;
+>>>>>>> 09acc2ba2b1a19d22b017c96c6b6b91f802066ff
 }
 
 void CTestScene::AnimateObjects(float fTimeElapsed)
@@ -262,6 +294,7 @@ void CTestScene::AnimateObjects(float fTimeElapsed)
 
 }
 
+<<<<<<< HEAD
 void CTestScene::Render(ID3D11DeviceContext* pd3dDeviceContext)
 {
 	//CCamera *pCamera = (m_pPlayer) ? m_pPlayer->GetCamera() : NULL;
@@ -270,12 +303,21 @@ void CTestScene::Render(ID3D11DeviceContext* pd3dDeviceContext)
 
 	if (m_pPlayer) m_pPlayer->UpdateShaderVariables(pd3dDeviceContext);
 
+=======
+void CTestScene::Render(ID3D11DeviceContext *pd3dDeviceContext, ID2D1HwndRenderTarget *pd2dRenderTarget)
+{
+	if (m_pLights && m_pd3dcbLights) UpdateShaderVariable(pd3dDeviceContext, m_pLights);
+
+>>>>>>> 09acc2ba2b1a19d22b017c96c6b6b91f802066ff
 	for (int i = 0; i < m_nShaders; i++)
 	{
 		m_ppShaders[i]->Render(pd3dDeviceContext, m_pCamera);
 	}
+<<<<<<< HEAD
 
 	if (m_pPlayerShader) m_pPlayerShader->Render(pd3dDeviceContext, m_pCamera);
+=======
+>>>>>>> 09acc2ba2b1a19d22b017c96c6b6b91f802066ff
 }
 
 CHeightMapTerrain * CTestScene::GetTerrain()

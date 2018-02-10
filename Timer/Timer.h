@@ -19,6 +19,10 @@ private:
 	unsigned long m_FramePerSecond;
 	float m_fFPSTimeElapsed;
 
+	HWND		m_hWnd{ nullptr };
+	TCHAR		m_CaptionTitle[TITLE_MAX_LENGTH];
+	int			m_TitleLength{ 0 };
+
 public:
 	CTimer();
 	virtual ~CTimer();
@@ -26,5 +30,7 @@ public:
 	void Tick(float fLockFPS = 0.0f);
 	unsigned long GetFrameRate(LPTSTR lpszString = NULL, int nCharacters = 0);
 	float GetTimeElapsed();
+
+	void SetUpdateCaptionHwnd(HWND hWnd);
 };
 

@@ -98,3 +98,22 @@ float CTimer::GetTimeElapsed()
 {
 	return (m_fTimeElapsed);
 }
+
+void CTimer::SetUpdateCaptionHwnd(HWND hWnd)
+{
+	m_hWnd = hWnd;
+
+	// Ä¸¼Ç º¯°æ
+#if defined(TITLESTRING)
+	lstrcpy(m_CaptionTitle, TITLESTRING);
+#else
+	GetWindowText(m_hWnd, m_CaptionTitle, TITLE_MAX_LENGTH);
+#endif
+
+#if defined(SHOW_CAPTIONFPS)
+	lstrcat(m_CaptionTitle, TEXT(" ("));
+#endif
+
+	m_TitleLength = lstrlen(m_CaptionTitle);
+	SetWindowText(m_hWnd, m_CaptionTitle);
+}
