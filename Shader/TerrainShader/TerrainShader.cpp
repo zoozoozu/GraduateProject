@@ -3,8 +3,8 @@
 #include "Object/HeightMapTerrain/HeightMapTerrain.h"
 #include "Material/Texture/Texture.h"
 
-CTerrainShader::CTerrainShader()
-	:CDetailTexturedIlluminatedShader()
+CTerrainShader::CTerrainShader(int nObjects)
+	:CDetailTexturedIlluminatedShader(nObjects)
 {
 }
 

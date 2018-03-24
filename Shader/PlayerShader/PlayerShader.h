@@ -4,7 +4,7 @@ class CPlayerShader :
 	public CDiffusedShader
 {
 public:
-	CPlayerShader();
+	CPlayerShader(int nObjects);
 	virtual ~CPlayerShader();
 
 	//virtual void CreateShader(ID3D11Device *pd3dDevice);

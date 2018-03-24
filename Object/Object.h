@@ -35,7 +35,9 @@ public:
 	void SetMesh(CMesh *pMesh, int nIndex = 0);
 	CMesh *GetMesh(int nIndex = 0) { return(m_ppMeshes[nIndex]); }
 
-	XMFLOAT4X4 m_d3dxmtxWorld;
+	XMFLOAT4X4						m_xmf4x4ToParentTransform;
+	XMFLOAT4X4						m_xmf4x4ToRootTransform;
+	XMFLOAT4X4						m_xmf4x4World;
 
 	virtual void Animate(float fTimeElapsed);
 	virtual void Render(ID3D11DeviceContext *pd3dDeviceContext, CCamera *pCamera);
@@ -51,24 +53,25 @@ public:
 public:
 	// 객체의 위치를 설정한다.
 	virtual void SetPosition(float x, float y, float z);
-	virtual void SetPosition(XMFLOAT3& d3dxvPosition);
+	virtual void SetPosition(XMFLOAT3& xmf3Position);
+	virtual void SetLocalPosition(XMFLOAT3& xmf3Position);
 	//자전 속도와 회전축 벡터를 설정하는 함수이다.
-	void SetRotationSpeed(float fRotationSpeed) { m_fRotationSpeed = fRotationSpeed; }
-	void SetRotationAxis(XMFLOAT3 d3dxvRotationAxis) { m_d3dxvRotationAxis = d3dxvRotationAxis; }
+	virtual void SetRotationSpeed(float fRotationSpeed) { m_fRotationSpeed = fRotationSpeed; }
+	virtual void SetRotationAxis(XMFLOAT3 d3dxvRotationAxis) { m_d3dxvRotationAxis = d3dxvRotationAxis; }
 
-	XMFLOAT3& GetPosition();
-
-public:
 	//로컬 x-축, y-축, z-축 방향으로 이동한다.
-	void MoveStrafe(float fDistance = 1.0f);
-	void MoveUp(float fDistance = 1.0f);
-	void MoveForward(float fDistance = 1.0f);
+	virtual void MoveStrafe(float fDistance = 1.0f);
+	virtual void MoveUp(float fDistance = 1.0f);
+	virtual void MoveForward(float fDistance = 1.0f);
 
 	//로컬 x-축, y-축, z-축 방향으로 회전한다.
-	void Rotate(float fPitch = 10.0f, float fYaw = 10.0f, float fRoll = 10.0f);
-	void Rotate(XMVECTOR pd3dxvAxis, float fAngle);
+	virtual void Rotate(float fPitch = 10.0f, float fYaw = 10.0f, float fRoll = 10.0f);
+	virtual void Rotate(XMVECTOR pd3dxvAxis, float fAngle);
+
+	virtual void UpdateTransform(XMFLOAT4X4 *pxmf4x4Parent = NULL);
 
 	//객체의 위치, 로컬 x-축, y-축, z-축 방향 벡터를 반환한다.
+	XMFLOAT3& GetPosition();
 	XMFLOAT3 GetLookAt();
 	XMFLOAT3 GetUp();
 	XMFLOAT3 GetRight();
@@ -83,14 +86,4 @@ public:
 
 	bool IsVisible(CCamera *pCamera = nullptr);
 
-};
-
-class CRotatingObject : public CGameObject
-{
-public:
-	CRotatingObject(int nMeshes = 1);
-	virtual ~CRotatingObject();
-
-	virtual void Animate(float fTimeElapsed);
-	virtual void Render(ID3D11DeviceContext *pd3dDeviceContext, CCamera *pCamera);
 };

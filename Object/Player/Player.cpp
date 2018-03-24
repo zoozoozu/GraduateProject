@@ -317,22 +317,23 @@ void CPlayer::ChangeCamera(ID3D11Device * pd3dDevice, DWORD nNewCameraMode, floa
 
 void CPlayer::OnPrepareRender()
 {
-	m_d3dxmtxWorld._11 = m_d3dxvRight.x;
-	m_d3dxmtxWorld._12 = m_d3dxvRight.y;
-	m_d3dxmtxWorld._13 = m_d3dxvRight.z;
-	m_d3dxmtxWorld._21 = m_d3dxvUp.x;
-	m_d3dxmtxWorld._22 = m_d3dxvUp.y;
-	m_d3dxmtxWorld._23 = m_d3dxvUp.z;
-	m_d3dxmtxWorld._31 = m_d3dxvLook.x;
-	m_d3dxmtxWorld._32 = m_d3dxvLook.y;
-	m_d3dxmtxWorld._33 = m_d3dxvLook.z;
-	m_d3dxmtxWorld._41 = m_d3dxvPosition.x;
-	m_d3dxmtxWorld._42 = m_d3dxvPosition.y;
-	m_d3dxmtxWorld._43 = m_d3dxvPosition.z;
+	m_xmf4x4ToParentTransform._11 = m_d3dxvRight.x;
+	m_xmf4x4ToParentTransform._12 = m_d3dxvRight.y;
+	m_xmf4x4ToParentTransform._13 = m_d3dxvRight.z;
+	m_xmf4x4ToParentTransform._21 = m_d3dxvUp.x;
+	m_xmf4x4ToParentTransform._22 = m_d3dxvUp.y;
+	m_xmf4x4ToParentTransform._23 = m_d3dxvUp.z;
+	m_xmf4x4ToParentTransform._31 = m_d3dxvLook.x;
+	m_xmf4x4ToParentTransform._32 = m_d3dxvLook.y;
+	m_xmf4x4ToParentTransform._33 = m_d3dxvLook.z;
+	m_xmf4x4ToParentTransform._41 = m_d3dxvPosition.x;
+	m_xmf4x4ToParentTransform._42 = m_d3dxvPosition.y;
+	m_xmf4x4ToParentTransform._43 = m_d3dxvPosition.z;
 }
 
 void CPlayer::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera *pCamera)
 {
+	CGameObject::UpdateTransform(NULL);
 	CGameObject::Render(pd3dDeviceContext, pCamera);
 }
 

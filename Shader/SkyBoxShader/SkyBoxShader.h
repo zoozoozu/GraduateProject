@@ -3,7 +3,7 @@
 class CSkyBoxShader : public CTexturedShader
 {
 public:
-	CSkyBoxShader();
+	CSkyBoxShader(int nObjects);
 	virtual ~CSkyBoxShader();
 
 	virtual void BuildObjects(ID3D11Device *pd3dDevice);

@@ -7,7 +7,9 @@
 
 CGameObject::CGameObject(int nMeshes)
 {
-	XMStoreFloat4x4(&m_d3dxmtxWorld, XMMatrixIdentity());
+	m_xmf4x4ToParentTransform = Matrix4x4::Identity();
+	m_xmf4x4World = Matrix4x4::Identity();
+
 	m_nMeshes = nMeshes;
 	m_ppMeshes = NULL;
 	if (m_nMeshes > 0) m_ppMeshes = new CMesh*[m_nMeshes];
@@ -81,7 +83,7 @@ void CGameObject::Animate(float fTimeElapsed)
 
 void CGameObject::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera *pCamera)
 {
-	CShader::UpdateShaderVariable(pd3dDeviceContext, XMLoadFloat4x4(&m_d3dxmtxWorld));
+	CShader::UpdateShaderVariable(pd3dDeviceContext, XMLoadFloat4x4(&m_xmf4x4World));
 	
 	if(m_pMaterial)
 	CIlluminatedShader::UpdateShaderVariable(pd3dDeviceContext, &m_pMaterial->m_Material);
@@ -116,21 +118,25 @@ void CGameObject::SetTexture(CTexture * pTexture)
 
 void CGameObject::SetPosition(float x, float y, float z)
 {
-	m_d3dxmtxWorld._41 = x;
-	m_d3dxmtxWorld._42 = y;
-	m_d3dxmtxWorld._43 = z;
+	m_xmf4x4ToParentTransform._41 = x;
+	m_xmf4x4ToParentTransform._42 = y;
+	m_xmf4x4ToParentTransform._43 = z;
 }
 
-void CGameObject::SetPosition(XMFLOAT3& d3dxvPosition)
+void CGameObject::SetPosition(XMFLOAT3& xmf3Position)
 {
-	m_d3dxmtxWorld._41 = d3dxvPosition.x;
-	m_d3dxmtxWorld._42 = d3dxvPosition.y;
-	m_d3dxmtxWorld._43 = d3dxvPosition.z;
+	SetPosition(xmf3Position.x, xmf3Position.y, xmf3Position.z);
+}
+
+void CGameObject::SetLocalPosition(XMFLOAT3 & xmf3Position)
+{
+	XMMATRIX mtxTranslation = XMMatrixTranslation(xmf3Position.x, xmf3Position.y, xmf3Position.z);
+	m_xmf4x4ToParentTransform = Matrix4x4::Multiply(m_xmf4x4ToParentTransform, mtxTranslation);
 }
 
 XMFLOAT3& CGameObject::GetPosition()
 {
-	return (XMFLOAT3(m_d3dxmtxWorld._41, m_d3dxmtxWorld._42, m_d3dxmtxWorld._43));
+	return (XMFLOAT3(m_xmf4x4World._41, m_xmf4x4World._42, m_xmf4x4World._43));
 }
 
 void CGameObject::MoveStrafe(float fDistance)
@@ -170,48 +176,29 @@ void CGameObject::MoveForward(float fDistance)
 void CGameObject::Rotate(float fPitch, float fYaw, float fRoll)
 {
 	//게임 객체를 주어진 각도로 회전한다.
-	XMMATRIX mtxRotate;
-	mtxRotate = XMMatrixRotationRollPitchYaw(XMConvertToRadians(fRoll), XMConvertToRadians(fPitch), XMConvertToRadians(fYaw));
-	XMMATRIX xmmtxWorld = XMLoadFloat4x4(&m_d3dxmtxWorld);
-	xmmtxWorld = mtxRotate * xmmtxWorld;
-	XMStoreFloat4x4(&m_d3dxmtxWorld, xmmtxWorld);
+	XMMATRIX mtxRotate = XMMatrixRotationRollPitchYaw(XMConvertToRadians(fPitch), XMConvertToRadians(fYaw), XMConvertToRadians(fRoll));
+	m_xmf4x4ToParentTransform = Matrix4x4::Multiply(mtxRotate, m_xmf4x4ToParentTransform);
 }
 
 void CGameObject::Rotate(XMVECTOR pd3dxvAxis, float fAngle)
 {
 	//게임 객체를 주어진 회전축을 중심으로 회전한다.
-	XMMATRIX mtxRotate;
-	mtxRotate = XMMatrixRotationAxis(pd3dxvAxis, XMConvertToRadians(fAngle));
-	XMMATRIX xmmtxWorld = XMLoadFloat4x4(&m_d3dxmtxWorld);
-	xmmtxWorld = mtxRotate * xmmtxWorld;
-	XMStoreFloat4x4(&m_d3dxmtxWorld, xmmtxWorld);
+	XMMATRIX mtxRotate = XMMatrixRotationAxis(pd3dxvAxis, XMConvertToRadians(fAngle));
+	m_xmf4x4ToParentTransform = Matrix4x4::Multiply(mtxRotate, m_xmf4x4ToParentTransform);
 }
 
-CRotatingObject::CRotatingObject(int nMeshes)
+void CGameObject::UpdateTransform(XMFLOAT4X4 * pxmf4x4Parent)
 {
-	m_fRotationSpeed = 15.0f;
-}
+	m_xmf4x4World = (pxmf4x4Parent) ? Matrix4x4::Multiply(m_xmf4x4ToParentTransform, *pxmf4x4Parent) : m_xmf4x4ToParentTransform;
 
-CRotatingObject::~CRotatingObject()
-{
-}
-
-void CRotatingObject::Animate(float fTimeElapsed)
-{
-	XMMATRIX mtxRotate;
-	mtxRotate = XMMatrixRotationY(XMConvertToRadians(45.0f * fTimeElapsed));
-	XMStoreFloat4x4(&m_d3dxmtxWorld, mtxRotate * XMLoadFloat4x4(&m_d3dxmtxWorld));
-}
-
-void CRotatingObject::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera *pCamera)
-{
-	CGameObject::Render(pd3dDeviceContext, pCamera);
+	//if (m_pSibling) m_pSibling->UpdateTransform(pxmf4x4Parent);
+	//if (m_pChild) m_pChild->UpdateTransform(&m_xmf4x4World);
 }
 
 XMFLOAT3 CGameObject::GetLookAt()
 {
 	//게임 객체를 로컬 z-축 벡터를 반환한다.
-	XMFLOAT3 d3dxvLookAt(m_d3dxmtxWorld._31, m_d3dxmtxWorld._32, m_d3dxmtxWorld._33);
+	XMFLOAT3 d3dxvLookAt(m_xmf4x4World._31, m_xmf4x4World._32, m_xmf4x4World._33);
 	XMStoreFloat3(&d3dxvLookAt, XMVector3Normalize(XMLoadFloat3(&d3dxvLookAt)));
 	return(d3dxvLookAt);
 }
@@ -219,7 +206,7 @@ XMFLOAT3 CGameObject::GetLookAt()
 XMFLOAT3 CGameObject::GetUp()
 {
 	//게임 객체를 로컬 y-축 벡터를 반환한다.
-	XMFLOAT3 d3dxvUp(m_d3dxmtxWorld._21, m_d3dxmtxWorld._22, m_d3dxmtxWorld._23);
+	XMFLOAT3 d3dxvUp(m_xmf4x4World._21, m_xmf4x4World._22, m_xmf4x4World._23);
 	XMStoreFloat3(&d3dxvUp, XMVector3Normalize(XMLoadFloat3(&d3dxvUp)));
 	return(d3dxvUp);
 }
@@ -227,35 +214,35 @@ XMFLOAT3 CGameObject::GetUp()
 XMFLOAT3 CGameObject::GetRight()
 {
 	//게임 객체를 로컬 x-축 벡터를 반환한다.
-	XMFLOAT3 d3dxvRight(m_d3dxmtxWorld._11, m_d3dxmtxWorld._12, m_d3dxmtxWorld._13);
+	XMFLOAT3 d3dxvRight(m_xmf4x4World._11, m_xmf4x4World._12, m_xmf4x4World._13);
 	XMStoreFloat3(&d3dxvRight, XMVector3Normalize(XMLoadFloat3(&d3dxvRight)));
 	return(d3dxvRight);
 }
 
 XMVECTOR CGameObject::GetPositionXMV()
 {
-	XMVECTOR xmvPosition = XMVectorSet(m_d3dxmtxWorld._41, m_d3dxmtxWorld._42, m_d3dxmtxWorld._43, 0.0f);
+	XMVECTOR xmvPosition = XMVectorSet(m_xmf4x4World._41, m_xmf4x4World._42, m_xmf4x4World._43, 0.0f);
 	xmvPosition = XMVector3Normalize(xmvPosition);
 	return xmvPosition;
 }
 
 XMVECTOR CGameObject::GetLookAtXMV()
 {
-	XMVECTOR xmvLookAt = XMVectorSet(m_d3dxmtxWorld._31, m_d3dxmtxWorld._32, m_d3dxmtxWorld._33, 1.0f);
+	XMVECTOR xmvLookAt = XMVectorSet(m_xmf4x4World._31, m_xmf4x4World._32, m_xmf4x4World._33, 1.0f);
 	xmvLookAt = XMVector3Normalize(xmvLookAt);
 	return xmvLookAt;
 }
 
 XMVECTOR CGameObject::GetUpXMV()
 {
-	XMVECTOR xmvUp = XMVectorSet(m_d3dxmtxWorld._21, m_d3dxmtxWorld._22, m_d3dxmtxWorld._23, 1.0f);
+	XMVECTOR xmvUp = XMVectorSet(m_xmf4x4World._21, m_xmf4x4World._22, m_xmf4x4World._23, 1.0f);
 	xmvUp = XMVector3Normalize(xmvUp);
 	return xmvUp;
 }
 
 XMVECTOR CGameObject::GetRightXMV()
 {
-	XMVECTOR xmvRight = XMVectorSet(m_d3dxmtxWorld._11, m_d3dxmtxWorld._12, m_d3dxmtxWorld._13, 1.0f);
+	XMVECTOR xmvRight = XMVectorSet(m_xmf4x4World._11, m_xmf4x4World._12, m_xmf4x4World._13, 1.0f);
 	xmvRight = XMVector3Normalize(xmvRight);
 	return xmvRight;
 }
@@ -270,7 +257,7 @@ bool CGameObject::IsVisible(CCamera *pCamera)
 		AABB bcBoundingCube = m_bcMeshBoundingCube;
 
 		/*객체의 메쉬의 바운딩 박스(모델 좌표계)를 객체의 월드 변환 행렬로 변환하고 새로운 바운딩 박스를 계산한다.*/
-		bcBoundingCube.Update(XMLoadFloat4x4(&m_d3dxmtxWorld));
+		bcBoundingCube.Update(XMLoadFloat4x4(&m_xmf4x4World));
 		if (pCamera) bIsVisible = pCamera->IsInFrustum(&bcBoundingCube);
 	}
 

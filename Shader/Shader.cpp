@@ -4,15 +4,23 @@
 ID3D11Buffer *CShader::m_pd3dcbWorldMatrix = NULL;
 ID3D11Buffer *CIlluminatedShader::m_pd3dcbMaterial = NULL;
 
-CShader::CShader()
+CShader::CShader(int nObjects)
 {
 	m_ppObjects = NULL;
-	m_nObjects = 0;
+
+	m_nObjects = nObjects;
+	if (m_nObjects > 0)
+	{
+		m_ppObjects = new CGameObject*[m_nObjects];
+		for (int i = 0; i < m_nObjects; i++) m_ppObjects[i] = NULL;
+	}
 
 	m_pd3dVertexLayout = NULL;
 	m_pd3dVertexShader = NULL;
 	m_pd3dPixelShader = NULL;
 	m_pd3dGeometryShader = NULL;
+
+	m_nIndexToAdd = 0;
 }
 
 
@@ -185,6 +193,7 @@ void CShader::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera *pCamera)
 			//카메라의 절두체에 포함되는 객체들만을 렌더링한다. 
 			if (m_ppObjects[j]->IsVisible(pCamera))
 			{
+				m_ppObjects[j]->UpdateTransform(NULL);
 				m_ppObjects[j]->Render(pd3dDeviceContext, pCamera);
 			}
 		}
@@ -192,7 +201,14 @@ void CShader::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera *pCamera)
 
 }
 
-CTexturedShader::CTexturedShader()
+void CShader::AddObject(CGameObject * pGameObject)
+{
+	m_ppObjects[m_nIndexToAdd++] = pGameObject;
+	if (pGameObject) pGameObject->AddRef();
+}
+
+CTexturedShader::CTexturedShader(int nObjects)
+	:CShader(nObjects)
 {
 }
 
@@ -212,7 +228,8 @@ void CTexturedShader::CreateShader(ID3D11Device * pd3dDevice)
 	CreatePixelShaderFromFile(pd3dDevice, L"Effect.fx", "PSTexturedColor", "ps_5_0", &m_pd3dPixelShader);
 }
 
-CDetailTexturedShader::CDetailTexturedShader()
+CDetailTexturedShader::CDetailTexturedShader(int nObjects)
+	:CTexturedShader(nObjects)
 {
 }
 
@@ -233,7 +250,8 @@ void CDetailTexturedShader::CreateShader(ID3D11Device * pd3dDevice)
 	CreatePixelShaderFromFile(pd3dDevice, L"Effect.fx", "PSDetailTexturedColor", "ps_5_0", &m_pd3dPixelShader);
 }
 
-CIlluminatedShader::CIlluminatedShader()
+CIlluminatedShader::CIlluminatedShader(int nObjects)
+	:CShader(nObjects)
 {
 }
 
@@ -279,7 +297,8 @@ void CIlluminatedShader::UpdateShaderVariable(ID3D11DeviceContext * pd3dDeviceCo
 	pd3dDeviceContext->PSSetConstantBuffers(PS_SLOT_MATERIAL, 1, &m_pd3dcbMaterial);
 }
 
-CTexturedIlluminatedShader::CTexturedIlluminatedShader()
+CTexturedIlluminatedShader::CTexturedIlluminatedShader(int nObjects)
+	:CIlluminatedShader(nObjects)
 {
 }
 
@@ -300,7 +319,8 @@ void CTexturedIlluminatedShader::CreateShader(ID3D11Device * pd3dDevice)
 	CreatePixelShaderFromFile(pd3dDevice, L"Effect.fx", "PSTexturedLightingColor", "ps_5_0", &m_pd3dPixelShader);
 }
 
-CDetailTexturedIlluminatedShader::CDetailTexturedIlluminatedShader()
+CDetailTexturedIlluminatedShader::CDetailTexturedIlluminatedShader(int nObjects)
+	:CTexturedIlluminatedShader(nObjects)
 {
 }
 
@@ -323,7 +343,7 @@ void CDetailTexturedIlluminatedShader::CreateShader(ID3D11Device * pd3dDevice)
 
 }
 
-CDiffusedShader::CDiffusedShader()
+CDiffusedShader::CDiffusedShader(int nObjects)
 {
 }
 

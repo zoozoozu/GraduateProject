@@ -6,15 +6,20 @@
 #include "Material/Texture/Texture.h"
 #include "Material/Material.h"
 
-CInstancingShader::CInstancingShader()
-	:CTexturedIlluminatedShader()
+CInstancingShader::CInstancingShader(int nObjects)
+	:CTexturedIlluminatedShader(nObjects)
 {
-	m_pMesh = nullptr;
-	m_nObjects = 0;
-	m_ppObjects = nullptr;
-	m_pd3dcbInstanceMatrices = nullptr;
-	m_nMatrixBufferStride = 0;
-	m_nMatrixBufferOffset = 0;
+	m_pd3dInstanceBuffer = NULL;
+	m_pMaterial = NULL;
+	m_pTexture = NULL;
+
+	m_ppObjects = NULL;
+	m_nObjects = nObjects;
+	if (m_nObjects > 0)
+	{
+		m_ppObjects = new CGameObject*[m_nObjects];
+		for (int i = 0; i < m_nObjects; i++) m_ppObjects[i] = NULL;
+	}
 }
 
 CInstancingShader::~CInstancingShader()
@@ -41,73 +46,20 @@ void CInstancingShader::CreateShader(ID3D11Device * pd3dDevice)
 	}
 }
 
-void CInstancingShader::UpdateShaderVariables(ID3D11DeviceContext * pd3dDeviceContext)
-{
-	//객체들의 월드변환 행렬 데이터를 상수 버퍼에 쓴다.
-	D3D11_MAPPED_SUBRESOURCE d3dMappedResource;
-	pd3dDeviceContext->Map(m_pd3dcbInstanceMatrices, 0, D3D11_MAP_WRITE_DISCARD, 0, &d3dMappedResource);
-	XMMATRIX *pcbWorldMatrix = (XMMATRIX *)d3dMappedResource.pData;
-	for (int j = 0; j < m_nObjects; j++)
-		pcbWorldMatrix[j] = XMMatrixTranspose(XMLoadFloat4x4(&m_ppObjects[j]->m_d3dxmtxWorld));
-
-	pd3dDeviceContext->Unmap(m_pd3dcbInstanceMatrices, 0);
-	//pd3dDeviceContext->IASetVertexBuffers(1, 1, &m_pd3dcbInstanceMatrices, &m_nMatrixBufferStride, &m_nMatrixBufferOffset);
-}
-
-void CInstancingShader::BuildObjects(ID3D11Device *pd3dDevice, CHeightMapTerrain *pHeightMapTerrain,
-	CMaterial *pMaterial, CTexture *pTexture, int k)
+void CInstancingShader::BuildObjects(ID3D11Device * pd3dDevice, CMaterial * pMaterial, CTexture * pTexture)
 {
 	m_pMaterial = pMaterial;
 	if (pMaterial) pMaterial->AddRef();
-
 	m_pTexture = pTexture;
 	if (pTexture) pTexture->AddRef();
 
-	m_pMesh = new CFbxModelMesh(pd3dDevice, "building-commercial_03.data", 1);
-	//m_pMesh = new CCubeMesh(pd3dDevice, 30, 10, 30);
-	m_nObjects = 1;
-	m_ppObjects = new CGameObject*[m_nObjects];
-	
-	float fTerrainWidth = pHeightMapTerrain->GetWidth();
-	float fTerrainLength = pHeightMapTerrain->GetLength();
-	float fHeight = pHeightMapTerrain->GetHeight(fTerrainWidth, fTerrainLength);
+	m_nInstanceBufferStride = sizeof(XMMATRIX);
+	m_nInstanceBufferOffset = 0;
 
-	CRotatingObject *pBuildingModel = nullptr;
-	CRotatingObject *pBoundingObject = nullptr;
-	pBuildingModel = new CRotatingObject();
-	pBuildingModel->SetMesh(m_pMesh);
-	pBuildingModel->SetRotationAxis(XMFLOAT3(0,10,0));
-	pBuildingModel->SetRotationSpeed(0);
-	pBuildingModel->SetPosition(XMFLOAT3(100.0, 10, 100.0));
-	m_ppObjects[0] = pBuildingModel;
-
-	D3D11_BUFFER_DESC d3dBufferDesc;
-	ZeroMemory(&d3dBufferDesc, sizeof(D3D11_BUFFER_DESC));
-	d3dBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	d3dBufferDesc.ByteWidth = sizeof(XMMATRIX) * m_nObjects;
-	d3dBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	d3dBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	pd3dDevice->CreateBuffer(&d3dBufferDesc, NULL, &m_pd3dcbInstanceMatrices);
-	//객체 인스턴스 데이터를 메쉬에 추가한다.
-	m_pMesh->AssembleToVertexBuffer(1, &m_pd3dcbInstanceMatrices, &m_nMatrixBufferStride, &m_nMatrixBufferOffset);
-
+	m_pd3dInstanceBuffer = CreateInstanceBuffer(pd3dDevice, m_nObjects, m_nInstanceBufferStride, NULL);
+	m_pMesh->AssembleToVertexBuffer(1, &m_pd3dInstanceBuffer, &m_nInstanceBufferStride, &m_nInstanceBufferOffset);
 }
 
-void CInstancingShader::ReleaseObjects()
-{
-	if (m_ppObjects)
-	{
-		for (int j = 0; j < m_nObjects; j++) delete m_ppObjects[j];
-		delete[] m_ppObjects;
-	}
-
-	if (m_pd3dcbInstanceMatrices) m_pd3dcbInstanceMatrices->Release();
-
-}
-
-void CInstancingShader::AnimateObjects(float fTimeElapsed)
-{
-}
 
 void CInstancingShader::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera * pCamera)
 {
@@ -116,13 +68,29 @@ void CInstancingShader::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera 
 	if (m_pMaterial) CIlluminatedShader::UpdateShaderVariable(pd3dDeviceContext, &m_pMaterial->m_Material);
 	if (m_pTexture) m_pTexture->UpdateShaderVariable(pd3dDeviceContext);
 
-	//모든 객체들의 인스턴스 데이터(월드 변환 행렬)를 인스턴스 버퍼에 쓴다.
-	UpdateShaderVariables(pd3dDeviceContext);
+	D3D11_MAPPED_SUBRESOURCE d3dMappedResource;
 
-	//CMesh *pCubeMesh = m_ppObjects[0]->GetMesh();
-	//m_pMesh = m_ppObjects[0]->GetMesh();
+	int nInstance = 0;
+	pd3dDeviceContext->Map(m_pd3dInstanceBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &d3dMappedResource);
+	XMMATRIX *pcbWorldMatrix = (XMMATRIX *)d3dMappedResource.pData;
+	for (int j = 0; j < m_nObjects; j++)
+	{
+		if (m_ppObjects[j])
+		{
+			m_ppObjects[j]->UpdateTransform(NULL);
+			// 직육면체 객체가 카메라에 보일 때(직육면체 객체의 바운딩 박스가 절두체와 교차할 때) 
+			// 인스턴싱 데이터를 인스턴스 버퍼로 쓴다
+			if (m_ppObjects[j]->IsVisible(pCamera))
+			{
+				pcbWorldMatrix[nInstance++] = XMMatrixTranspose(XMLoadFloat4x4(&m_ppObjects[j]->m_xmf4x4World));
+			}
+		}
+	}
 
-	m_pMesh->RenderInstanced(pd3dDeviceContext, m_nObjects, 0);
+	pd3dDeviceContext->Unmap(m_pd3dInstanceBuffer, 0);
+
+	// 카메라에 보이는 직육면체들만 인스턴싱을 한다.
+	m_pMesh->RenderInstanced(pd3dDeviceContext, nInstance, 0);
 }
 
 void CInstancingShader::SetMesh(CMesh * pMesh)

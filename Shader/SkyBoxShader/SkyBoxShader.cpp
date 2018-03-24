@@ -3,7 +3,8 @@
 #include "SkyBoxShader.h"
 
 
-CSkyBoxShader::CSkyBoxShader()
+CSkyBoxShader::CSkyBoxShader(int nObjects)
+	:CTexturedShader(nObjects)
 {
 }
 

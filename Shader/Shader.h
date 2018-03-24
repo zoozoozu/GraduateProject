@@ -16,7 +16,7 @@ private:
 	int m_nReferences;
 
 public:
-	CShader();
+	CShader(int nObjects = 1);
 	virtual ~CShader();
 
 public:
@@ -24,15 +24,24 @@ public:
 	void Release() { if (--m_nReferences <= 0) delete this; }
 
 protected:
-	ID3D11InputLayout *m_pd3dVertexLayout;
-	ID3D11VertexShader *m_pd3dVertexShader;
-	ID3D11PixelShader *m_pd3dPixelShader;
-	ID3D11GeometryShader *m_pd3dGeometryShader;
+	ID3D11InputLayout * m_pd3dVertexLayout					{ nullptr };
+	ID3D11VertexShader *m_pd3dVertexShader					{ nullptr };
+	ID3D11PixelShader *m_pd3dPixelShader					{ nullptr };
+	ID3D11GeometryShader *m_pd3dGeometryShader				{ nullptr };
 
-	//쉐이더 객체가 게임 객체들의 리스트를 가진다.
+	// 쉐이더 객체가 게임 객체들의 리스트를 가진다.
 	CGameObject **m_ppObjects;
 	int m_nObjects;
 
+	// Texture&Material
+	CMaterial *m_pMaterial									{ nullptr };
+	CTexture *m_pTexture									{ nullptr };
+
+	// Mesh
+	CMesh *m_pMesh											{ nullptr };
+
+	// GameObjectCount
+	int m_nIndexToAdd;
 	//월드 변환 행렬을 위한 상수 버퍼는 하나만 있어도 되므로 정적 멤버로 선언한다.
 	static ID3D11Buffer *m_pd3dcbWorldMatrix;
 
@@ -64,12 +73,13 @@ public:
 	virtual void OnPrepareRender(ID3D11DeviceContext *pd3dDeviceContext);
 	virtual void Render(ID3D11DeviceContext *pd3dDeviceContext, CCamera *pCamera = NULL);
 
+	virtual void AddObject(CGameObject *pGameObject);
 };
 
 class CDiffusedShader : public CShader
 {
 public:
-	CDiffusedShader();
+	CDiffusedShader(int nObjects);
 	virtual ~CDiffusedShader();
 
 	virtual void CreateShader(ID3D11Device *pd3dDevice);
@@ -79,7 +89,7 @@ public:
 class CTexturedShader : public CShader
 {
 public:
-	CTexturedShader();
+	CTexturedShader(int nObjects);
 	virtual ~CTexturedShader();
 
 	virtual void CreateShader(ID3D11Device *pd3dDevice);
@@ -88,7 +98,7 @@ public:
 class CDetailTexturedShader : public CTexturedShader
 {
 public:
-	CDetailTexturedShader();
+	CDetailTexturedShader(int nObjects);
 	virtual ~CDetailTexturedShader();
 
 	virtual void CreateShader(ID3D11Device *pd3dDevice);
@@ -97,7 +107,7 @@ public:
 class CIlluminatedShader : public CShader
 {
 public:
-	CIlluminatedShader();
+	CIlluminatedShader(int nObjects);
 	virtual ~CIlluminatedShader();
 
 	virtual void CreateShader(ID3D11Device *pd3dDevice);
@@ -114,7 +124,7 @@ public:
 class CTexturedIlluminatedShader : public CIlluminatedShader
 {
 public:
-	CTexturedIlluminatedShader();
+	CTexturedIlluminatedShader(int nObjects);
 	virtual ~CTexturedIlluminatedShader();
 
 	virtual void CreateShader(ID3D11Device *pd3dDevice);
@@ -123,7 +133,7 @@ public:
 class CDetailTexturedIlluminatedShader : public CTexturedIlluminatedShader
 {
 public:
-	CDetailTexturedIlluminatedShader();
+	CDetailTexturedIlluminatedShader(int nObjects);
 	virtual ~CDetailTexturedIlluminatedShader();
 
 	virtual void CreateShader(ID3D11Device *pd3dDevice);

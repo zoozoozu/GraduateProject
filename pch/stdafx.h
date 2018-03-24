@@ -72,6 +72,8 @@ using namespace std;
 #include <filesystem>
 using namespace experimental::filesystem;
 
+#include "inlineFunctions.h"
+
 // ------------------------ Screen ----------------------------- //
 // 화면크기
 #define FRAME_BUFFER_WIDTH		640

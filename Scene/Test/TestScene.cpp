@@ -6,13 +6,13 @@
 #include "Material/Texture/Texture.h"
 
 #include "Mesh/AABBBoundingMesh/AABBBoundingMesh.h"
+#include "Mesh/FbxMesh/FbxModelMesh/FbxModelMesh.h"
 
 #include "Shader/SkyBoxShader/SkyBoxShader.h"
 #include "Shader/TerrainShader/TerrainShader.h"
 #include "Object/HeightMapTerrain/HeightMapTerrain.h"
 #include "Shader/InstancingShader/InstancingShader.h"
 #include "Shader/SceneShader/SceneShader.h"
-#include "Shader/AABBRenderShader/AABBRenderShader.h"
 
 #include "TestScene.h"
 
@@ -220,7 +220,7 @@ bool CTestScene::OnCreate(wstring && tag, CGameFramework * pFramework)
 	BuildObjects(m_pFramework->GetD3DDevice().Get());
 
 	// Player 생성
-	m_pPlayerShader = new CPlayerShader();
+	m_pPlayerShader = new CPlayerShader(1);
 	m_pPlayerShader->CreateShader(m_pFramework->GetD3DDevice().Get());
 	m_pPlayerShader->BuildObjects(m_pFramework->GetD3DDevice().Get());
 	m_pPlayer = m_pPlayerShader->GetPlayer();
@@ -240,6 +240,7 @@ bool CTestScene::OnCreate(wstring && tag, CGameFramework * pFramework)
 
 void CTestScene::BuildObjects(ID3D11Device* pd3dDevice)
 {
+	CMesh *pBuildingMesh = new CFbxModelMesh(pd3dDevice, "building-commercial_03.data", 1.0f);
 	//텍스쳐 맵핑에 사용할 샘플러 상태 객체를 생성한다.
 	ID3D11SamplerState *pd3dSamplerState = NULL;
 	D3D11_SAMPLER_DESC d3dSamplerDesc;
@@ -268,26 +269,33 @@ void CTestScene::BuildObjects(ID3D11Device* pd3dDevice)
 	pNormalMaterial->m_Material.m_d3dxcSpecular = XMFLOAT4(1.0f, 1.0f, 1.0f, 5.0f);
 	pNormalMaterial->m_Material.m_d3dxcEmissive = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
 
-	m_nShaders = 4;
+	m_nShaders = 3;
 	m_ppShaders = new CShader*[m_nShaders];
 
-	m_ppShaders[0] = new CSkyBoxShader();
+	m_ppShaders[0] = new CSkyBoxShader(1);
 	m_ppShaders[0]->CreateShader(pd3dDevice);
 	m_ppShaders[0]->BuildObjects(pd3dDevice);
 
-	m_ppShaders[1] = new CTerrainShader();
+	m_ppShaders[1] = new CTerrainShader(1);
 	m_ppShaders[1]->CreateShader(pd3dDevice);
 	m_ppShaders[1]->BuildObjects(pd3dDevice);
 
-	CInstancingShader *pBuildingObjectsShader = new CInstancingShader();
-	pBuildingObjectsShader->CreateShader(pd3dDevice);
-	pBuildingObjectsShader->BuildObjects(pd3dDevice, GetTerrain(), pNormalMaterial, pBuildingTexture, 0);
-	m_ppShaders[2] = pBuildingObjectsShader;
+	m_ppShaders[2] = new CSceneShader(1);
+	m_ppShaders[2]->CreateShader(pd3dDevice);
+	m_ppShaders[2]->BuildObjects(pd3dDevice);
 
-	m_ppShaders[3] = new CSceneShader();
-	m_ppShaders[3]->CreateShader(pd3dDevice);
-	m_ppShaders[3]->BuildObjects(pd3dDevice);
+	m_nInstancingShaders = 1;
+	m_ppInstancingShaders = new CInstancingShader*[m_nInstancingShaders];
 
+	m_ppInstancingShaders[0] = new CInstancingShader(1);
+	m_ppInstancingShaders[0]->SetMesh(pBuildingMesh);
+	m_ppInstancingShaders[0]->CreateShader(pd3dDevice);
+	m_ppInstancingShaders[0]->BuildObjects(pd3dDevice, pNormalMaterial, pBuildingTexture);
+
+	CGameObject *pBuildingObject = new CGameObject(1);
+	pBuildingObject->SetPosition(XMFLOAT3(2500.f, 0.f, 2500.f));
+	pBuildingObject->Rotate(0.0f, -45.0f, 0.f);
+	m_ppInstancingShaders[0]->AddObject(pBuildingObject);
 	CreateShaderVariables(pd3dDevice);
 }
 
@@ -394,6 +402,11 @@ void CTestScene::AnimateObjects(float fTimeElapsed)
 		m_ppShaders[i]->AnimateObjects(fTimeElapsed);
 	}
 
+	for (int i = 0; i < m_nInstancingShaders; i++)
+	{
+		m_ppInstancingShaders[i]->AnimateObjects(fTimeElapsed);
+	}
+
 }
 
 void CTestScene::Render(ID3D11DeviceContext* pd3dDeviceContext)
@@ -407,6 +420,11 @@ void CTestScene::Render(ID3D11DeviceContext* pd3dDeviceContext)
 	for (int i = 0; i < m_nShaders; i++)
 	{
 		m_ppShaders[i]->Render(pd3dDeviceContext, m_pCamera);
+	}
+
+	for (int i = 0; i < m_nInstancingShaders; i++)
+	{
+		m_ppInstancingShaders[i]->Render(pd3dDeviceContext, m_pCamera);
 	}
 
 	if (m_pPlayerShader) m_pPlayerShader->Render(pd3dDeviceContext, m_pCamera);

@@ -5,7 +5,8 @@
 #include "PlayerShader.h"
 
 
-CPlayerShader::CPlayerShader()
+CPlayerShader::CPlayerShader(int nObjects)
+	:CDiffusedShader(nObjects)
 {
 }
 

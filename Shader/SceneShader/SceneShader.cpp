@@ -4,7 +4,8 @@
 #include "Mesh/AABBBoundingMesh/AABBBoundingMesh.h"
 
 
-CSceneShader::CSceneShader()
+CSceneShader::CSceneShader(int nObjects)
+	:CDiffusedShader(nObjects)
 {
 }
 

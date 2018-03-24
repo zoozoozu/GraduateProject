@@ -2,8 +2,9 @@
 #include "Scene\Scene.h"
 #include "Camera\Camera.h"
 
-#include "Shader\PlayerShader\PlayerShader.h"
 #include "Shader\Shader.h"
+#include "Shader\PlayerShader\PlayerShader.h"
+#include "Shader\InstancingShader\InstancingShader.h"
 
 #define MAX_LIGHTS		4 
 #define POINT_LIGHT		1.0f
@@ -46,6 +47,9 @@ private:
 	// 씬은 쉐이더들의 리스트(배열)이다.
 	CShader **m_ppShaders;
 	int m_nShaders;
+
+	CInstancingShader **m_ppInstancingShaders;
+	int m_nInstancingShaders;
 
 private:
 	LIGHTS *m_pLights;

@@ -4,7 +4,7 @@ class CSceneShader :
 	public CDiffusedShader
 {
 public:
-	CSceneShader();
+	CSceneShader(int nObjects);
 	virtual ~CSceneShader();
 
 	virtual void CreateShader(ID3D11Device *pd3dDevice);
