@@ -177,7 +177,9 @@
     <ClInclude Include="RealWorld.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\Test\TestScene.h" />
-    <ClInclude Include="Shader\AABBRenderShader\AABBRenderShader.h" />
+    <ClInclude Include="Shader\AABBRenderShader\AABBRenderShader.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Shader\InstancingShader\InstancingShader.h" />
     <ClInclude Include="Shader\PlayerShader\PlayerShader.h" />
     <ClInclude Include="Shader\SceneShader\SceneShader.h" />
@@ -214,7 +216,9 @@
     <ClCompile Include="RealWorld.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\Test\TestScene.cpp" />
-    <ClCompile Include="Shader\AABBRenderShader\AABBRenderShader.cpp" />
+    <ClCompile Include="Shader\AABBRenderShader\AABBRenderShader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Shader\InstancingShader\InstancingShader.cpp" />
     <ClCompile Include="Shader\PlayerShader\PlayerShader.cpp" />
     <ClCompile Include="Shader\SceneShader\SceneShader.cpp" />

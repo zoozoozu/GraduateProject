@@ -3,14 +3,17 @@
 #include "Mesh/Mesh.h"
 
 CAABBRenderShader::CAABBRenderShader(CMesh * pMesh, int nObjects)
+	:CInstancingShader(nObjects)
 {
 }
 
 CAABBRenderShader::CAABBRenderShader(CMesh * pMesh)
+	:CInstancingShader(0)
 {
 }
 
 CAABBRenderShader::CAABBRenderShader(int nObjects)
+	:CInstancingShader(nObjects)
 {
 }
 

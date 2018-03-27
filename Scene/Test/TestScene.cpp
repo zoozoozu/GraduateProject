@@ -240,8 +240,7 @@ bool CTestScene::OnCreate(wstring && tag, CGameFramework * pFramework)
 
 void CTestScene::BuildObjects(ID3D11Device* pd3dDevice)
 {
-	CMesh *pBuildingMesh = new CFbxModelMesh(pd3dDevice, "building-commercial_03.data", 1.0f);
-	//텍스쳐 맵핑에 사용할 샘플러 상태 객체를 생성한다.
+	//텍스쳐 맵핑ftvbygunhimjkp.l/;'에 사용할 샘플러 상태 객체를 생성한다.
 	ID3D11SamplerState *pd3dSamplerState = NULL;
 	D3D11_SAMPLER_DESC d3dSamplerDesc;
 	ZeroMemory(&d3dSamplerDesc, sizeof(D3D11_SAMPLER_DESC));
@@ -254,12 +253,144 @@ void CTestScene::BuildObjects(ID3D11Device* pd3dDevice)
 	d3dSamplerDesc.MaxLOD = 0;
 	pd3dDevice->CreateSamplerState(&d3dSamplerDesc, &pd3dSamplerState);
 
+	ID3D11SamplerState *pd3dUISamplerState = NULL;
+	ZeroMemory(&d3dSamplerDesc, sizeof(D3D11_SAMPLER_DESC));
+	d3dSamplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	d3dSamplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+	d3dSamplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+	d3dSamplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+	d3dSamplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	d3dSamplerDesc.MinLOD = 0;
+	d3dSamplerDesc.MaxLOD = 0;
+	pd3dDevice->CreateSamplerState(&d3dSamplerDesc, &pd3dUISamplerState);
+
 	//텍스쳐 리소스를 생성한다.
 	ID3D11ShaderResourceView *pd3dsrvTexture = NULL;
-	CTexture *pBuildingTexture = new CTexture(1, 1, 0, 0);
-	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("buildz4.jpg"), NULL, NULL, &pd3dsrvTexture, NULL);
-	pBuildingTexture->SetTexture(0, pd3dsrvTexture);
-	pBuildingTexture->SetSampler(0, pd3dSamplerState);
+
+	// SoldierTexture
+	CTexture *pSoldierTexture = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Animation/eunbee_idle.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pSoldierTexture->SetTexture(0, pd3dsrvTexture);
+	pSoldierTexture->SetSampler(0, pd3dSamplerState);
+	pd3dsrvTexture->Release();
+
+	// NinjaTexture
+	pd3dsrvTexture = NULL;
+	CTexture *pNinjaTexture = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Animation/Ninja_diffuse.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pNinjaTexture->SetTexture(0, pd3dsrvTexture);
+	pNinjaTexture->SetSampler(0, pd3dSamplerState);
+	pd3dsrvTexture->Release();
+
+	pd3dsrvTexture = NULL;
+	CTexture *pContainerTexture = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Texture/containers_diffuse.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pContainerTexture->SetTexture(0, pd3dsrvTexture);
+	pContainerTexture->SetSampler(0, pd3dSamplerState);
+
+	pd3dsrvTexture = NULL;
+	CTexture *pContainerTexture1 = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Texture/containers_diffuse2.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pContainerTexture1->SetTexture(0, pd3dsrvTexture);
+	pContainerTexture1->SetSampler(0, pd3dSamplerState);
+
+	pd3dsrvTexture = NULL;
+	CTexture *pBarrierTexture = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Texture/Barrier_01.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pBarrierTexture->SetTexture(0, pd3dsrvTexture);
+	pBarrierTexture->SetSampler(0, pd3dSamplerState);
+
+	pd3dsrvTexture = NULL;
+	CTexture *pWindowTexture_001 = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Texture/Windows_001[9].png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pWindowTexture_001->SetTexture(0, pd3dsrvTexture);
+	pWindowTexture_001->SetSampler(0, pd3dSamplerState);
+
+	pd3dsrvTexture = NULL;
+	CTexture *pWindowTexture_003 = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Texture/Windows_001[10].png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pWindowTexture_003->SetTexture(0, pd3dsrvTexture);
+	pWindowTexture_003->SetSampler(0, pd3dSamplerState);
+
+	pd3dsrvTexture = NULL;
+	CTexture *pBuilding1Texture = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Texture/t_002_b001-2_style2_basecolor.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pBuilding1Texture->SetTexture(0, pd3dsrvTexture);
+	pBuilding1Texture->SetSampler(0, pd3dSamplerState);
+
+	pd3dsrvTexture = NULL;
+	CTexture *pBuilding2Texture = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Texture/t_002_b002-2_style2_basecolor.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pBuilding2Texture->SetTexture(0, pd3dsrvTexture);
+	pBuilding2Texture->SetSampler(0, pd3dSamplerState);
+
+	pd3dsrvTexture = NULL;
+	CTexture *pBuilding3Texture = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Texture/t_002_b003_style2_basecolor.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pBuilding3Texture->SetTexture(0, pd3dsrvTexture);
+	pBuilding3Texture->SetSampler(0, pd3dSamplerState);
+
+	pd3dsrvTexture = NULL;
+	CTexture *pOther1Texture = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Texture/chimney_Albedo.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pOther1Texture->SetTexture(0, pd3dsrvTexture);
+	pOther1Texture->SetSampler(0, pd3dSamplerState);
+
+	// 집에서 수정하기.
+	pd3dsrvTexture = NULL;
+	CTexture *pDoorTexture = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Texture/chimney_Albedo.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pDoorTexture->SetTexture(0, pd3dsrvTexture);
+	pDoorTexture->SetSampler(0, pd3dSamplerState);
+
+	pd3dsrvTexture = nullptr;
+	CTexture *pGunTexture = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Texture/rifle_diff.jpg"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pGunTexture->SetTexture(0, pd3dsrvTexture);
+	pGunTexture->SetSampler(0, pd3dUISamplerState);
+
+	pd3dsrvTexture = nullptr;
+	CTexture *pUICrosshairTexture = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Target/gun-pointer (1).png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pUICrosshairTexture->SetTexture(0, pd3dsrvTexture);
+	pUICrosshairTexture->SetSampler(0, pd3dUISamplerState);
+
+	pd3dsrvTexture = nullptr;
+	CTexture *pUICharacter1Texture = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Texture/UI_Character_1_수정1.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pUICharacter1Texture->SetTexture(0, pd3dsrvTexture);
+	pUICharacter1Texture->SetSampler(0, pd3dUISamplerState);
+
+	pd3dsrvTexture = nullptr;
+	CTexture *pUIHPTexture = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Texture/INGAMEUI_HPGauge_Red.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pUIHPTexture->SetTexture(0, pd3dsrvTexture);
+	pUIHPTexture->SetSampler(0, pd3dUISamplerState);
+
+	pd3dsrvTexture = nullptr;
+	CTexture *pIngameTextTexture = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Texture/Ingame_Texture2.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pIngameTextTexture->SetTexture(0, pd3dsrvTexture);
+	pIngameTextTexture->SetSampler(0, pd3dUISamplerState);
+	
+	//0812
+	/*pd3dsrvTexture = NULL;
+	pRedTeamRespawnTex = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("Data/Texture/REDTEAMZONE.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pRedTeamRespawnTex->SetTexture(0, pd3dsrvTexture);
+	pRedTeamRespawnTex->SetSampler(0, pd3dUISamplerState);
+
+	pd3dsrvTexture = NULL;
+	pBlueTeamRespawnTex = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("Data/Texture/BLUETEAMZONE.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pBlueTeamRespawnTex->SetTexture(0, pd3dsrvTexture);
+	pBlueTeamRespawnTex->SetSampler(0, pd3dUISamplerState);
+
+	CTexture *pHPcharge = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("Data/Texture/hp충전.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pHPcharge->SetTexture(0, pd3dsrvTexture);
+	pHPcharge->SetSampler(0, pd3dUISamplerState);
+*/
 	pd3dsrvTexture->Release();
 	pd3dSamplerState->Release();
 
@@ -268,6 +399,81 @@ void CTestScene::BuildObjects(ID3D11Device* pd3dDevice)
 	pNormalMaterial->m_Material.m_d3dxcAmbient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	pNormalMaterial->m_Material.m_d3dxcSpecular = XMFLOAT4(1.0f, 1.0f, 1.0f, 5.0f);
 	pNormalMaterial->m_Material.m_d3dxcEmissive = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+
+	// Mesh
+	// Container
+	CMesh *pContainer1Mesh = new CFbxModelMesh(pd3dDevice, "../Data/container/container_1.data", 1.0f);
+	CMesh *pContainer2Mesh = new CFbxModelMesh(pd3dDevice, "../Data/container/container_2.data", 1.0f);
+	CMesh *pContainer3Mesh = new CFbxModelMesh(pd3dDevice, "../Data/container/container_3.data", 1.0f);
+	CMesh *pContainer4Mesh = new CFbxModelMesh(pd3dDevice, "../Data/container/container_4.data", 1.0f);
+
+	// NewTexture Container
+	CMesh *pContainer5Mesh = new CFbxModelMesh(pd3dDevice, "../Data/container/container_1.data", 1.0f);
+	CMesh *pContainer6Mesh = new CFbxModelMesh(pd3dDevice, "../Data/container/container_2.data", 1.0f);
+	CMesh *pContainer7Mesh = new CFbxModelMesh(pd3dDevice, "../Data/container/container_3.data", 1.0f);
+	CMesh *pContainer8Mesh = new CFbxModelMesh(pd3dDevice, "../Data/container/container_4.data", 1.0f);
+
+	// Open Container1
+	CMesh *pOpenContainer1_Mesh1 = new CFbxModelMesh(pd3dDevice, "../Data/container/container_1_open_Mesh1.data", 1.0f);
+
+	// Open Container2
+	CMesh *pOpenContainer2_Mesh1 = new CFbxModelMesh(pd3dDevice, "../Data/container/container_2_open_Mesh1.data", 1.0f);
+
+	// Barrier
+	CMesh *pBarrier1Mesh = new CFbxModelMesh(pd3dDevice, "../Data/container/barrier_small.data", 1.0f);
+	CMesh *pBarrier2Mesh = new CFbxModelMesh(pd3dDevice, "../Data/container/barrier_small.data", 1.0f);
+
+	// Building
+	CMesh *pWindow1Mesh = new CFbxModelMesh(pd3dDevice, "../Data/BuildingObject/window_001.data", 1.0f);
+	CMesh *pWindow3Mesh = new CFbxModelMesh(pd3dDevice, "../Data/BuildingObject/window_003.data", 1.0f);
+
+	CMesh *pBuilding1Mesh = new CFbxModelMesh(pd3dDevice, "../Data/BuildingObject/t_002_b001-2.data", 1.0f);
+	CMesh *pBuilding2Mesh = new CFbxModelMesh(pd3dDevice, "../Data/BuildingObject/t_002_b002-2.data", 1.0f);
+	CMesh *pBuilding3Mesh = new CFbxModelMesh(pd3dDevice, "../Data/BuildingObject/t_002_b003.data", 1.0f);
+
+	CMesh *pOther1Mesh = new CFbxModelMesh(pd3dDevice, "../Data/BuildingObject/other_001.data", 1.0f);
+	CMesh *pDoorMesh = new CFbxModelMesh(pd3dDevice, "../Data/BuildingObject/t002_door001.data", 1.0f);
+	CFbxModelMesh *pResponeMesh = new CFbxModelMesh(pd3dDevice, "../Data/CrossRespone.data", 0.1f);
+	
+	////0812
+	//CMesh *pUITeamRespawn = new CBillboardMesh(pd3dDevice, FRAME_BUFFER_WIDTH / 2 - 125 * 1.6f, 100 * 1.6f, 250 * 1.6f, 150 * 1.6f);
+	//CMesh *pUIHPCharge = new CBillboardMesh(pd3dDevice, FRAME_BUFFER_WIDTH / 2 - 125 * 1.6f, 200 * 1.6f, 250 * 1.6f, 150 * 1.6f);
+
+	////1. 솔져메쉬
+	//pSoldierMesh[IDLE] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/eunbee_idle.data", 0.16f);
+	//pSoldierMesh[WALK] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/eunbee_walk.data", 0.16f);
+	//pSoldierMesh[BOMB] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/eunbee_bomb.data", 0.16f);
+	//pSoldierMesh[DEAD] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/eunbee_dead.data", 0.16f);
+	//pSoldierMesh[ATTACK] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/eunbee_attack.data", 0.16f);
+
+	////2. 닌자 메쉬
+	//pNinjaMesh[IDLE] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/Ninja_idle.data", 0.8f);
+	//pNinjaMesh[WALK] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/Ninja_walk_inPlace.data", 0.8f);
+	//pNinjaMesh[BOMB] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/ninza_throw.data", 0.8f); // 나중에 Attack으로 바꿔줌 
+	//pNinjaMesh[DEAD] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/ninza_Death_Forward.data", 0.8f);
+	//pNinjaMesh[ATTACK] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/Ninja_attack.data", 0.8f);
+
+	////3. 아처 메쉬
+	//pArcherMesh[IDLE] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/eunbee_archer_idle.data", 0.07f);
+	//pArcherMesh[WALK] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/eunbee_archer_run.data", 0.07f);
+	//pArcherMesh[BOMB] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/eunbee_archer_bomb.data", 0.07f); // 나중에 Attack으로 바꿔줌 
+	//pArcherMesh[DEAD] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/eunbee_archer_dead.data", 0.07f);
+	//pArcherMesh[ATTACK] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/eunbee_archer_attack.data", 0.07f);
+	////-----------------MESH END-----------------//
+
+	//// UI Mesh
+	//CMesh *pUICrosshairMesh = new CBillboardMesh(pd3dDevice, FRAME_BUFFER_WIDTH / 2, FRAME_BUFFER_HEIGHT / 2, 50 * 1.6f, 50 * 1.6f);
+	//CMesh *pUICharacter1Mesh = new CBillboardMesh(pd3dDevice, -260, -180, 70, 70);
+	//CMesh *pUIHPMesh = new CBillboardMesh(pd3dDevice, -130, -180, 150, 10);
+
+	////0812
+	//// Sprite Mesh
+	//CMesh *pSpriteTestMesh = new CSpriteMesh(pd3dDevice, 10.0f, 14, 0.033f, "Data/SkillAnimation/Special2_");
+
+	//// LandMine Mesh
+	//CMesh *pLandMineMesh = new CFbxModelMesh(pd3dDevice, "Data/Bullet/LandMine.data", 1.0f);
+	//// Occupied UI
+	//CMesh *pInGameTextMesh = new CBillboardMesh(pd3dDevice, 160, 160, 600, 220);
 
 	m_nShaders = 3;
 	m_ppShaders = new CShader*[m_nShaders];
@@ -284,18 +490,50 @@ void CTestScene::BuildObjects(ID3D11Device* pd3dDevice)
 	m_ppShaders[2]->CreateShader(pd3dDevice);
 	m_ppShaders[2]->BuildObjects(pd3dDevice);
 
+#pragma region "CONTAINER MAP"
+
+	// instancingShader
 	m_nInstancingShaders = 1;
 	m_ppInstancingShaders = new CInstancingShader*[m_nInstancingShaders];
 
-	m_ppInstancingShaders[0] = new CInstancingShader(1);
-	m_ppInstancingShaders[0]->SetMesh(pBuildingMesh);
-	m_ppInstancingShaders[0]->CreateShader(pd3dDevice);
-	m_ppInstancingShaders[0]->BuildObjects(pd3dDevice, pNormalMaterial, pBuildingTexture);
+	ifstream in;
+	string posX, posY, posZ;
+	int posx, posy, posz;
+	vector<XMFLOAT3> pos;
+	int i = 0;
+	int	j = 0;
 
-	CGameObject *pBuildingObject = new CGameObject(1);
-	pBuildingObject->SetPosition(XMFLOAT3(2500.f, 0.f, 2500.f));
-	pBuildingObject->Rotate(0.0f, -45.0f, 0.f);
-	m_ppInstancingShaders[0]->AddObject(pBuildingObject);
+#pragma region "Container4 Rotation X:-45 Y:0 Z:0"
+	m_ppInstancingShaders[0] = new CInstancingShader(4);
+	m_ppInstancingShaders[0]->SetMesh(pContainer1Mesh);
+	m_ppInstancingShaders[0]->CreateShader(pd3dDevice);
+	m_ppInstancingShaders[0]->BuildObjects(pd3dDevice, pNormalMaterial, pContainerTexture1);
+
+	in.open("../Data/MapPosition/container(-90,0,-45).csv");
+
+	while (getline(in, posX, ',') &&
+		getline(in, posY, ',') &&
+		getline(in, posZ, '\n'))
+	{
+		posx = atoi(posX.c_str());
+		posy = atoi(posY.c_str());
+		posz = atoi(posZ.c_str());
+		pos.push_back(XMFLOAT3(posx, posy, posz));
+	}
+
+	for (auto iterPos = pos.begin(); iterPos != pos.end(); ++iterPos)
+	{
+		CGameObject *pContainer4Model = new CGameObject(1);
+		//pContainer4Model->SetRotate(0, -45, 0);
+		pContainer4Model->SetPosition(XMFLOAT3(iterPos->x, iterPos->y, iterPos->z));
+		//pContainer4Model->SetBoundingBox(pContainer1Mesh);
+		m_ppInstancingShaders[0]->AddObject(pContainer4Model);
+	}
+
+	pos.clear();
+	in.close();
+#pragma endregion
+
 	CreateShaderVariables(pd3dDevice);
 }
 
