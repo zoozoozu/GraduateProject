@@ -1,18 +1,17 @@
 #pragma once
 #include "Shader/Shader.h"
 class CPlayerShader :
-	public CDiffusedShader
+	public CShader
 {
 public:
-	CPlayerShader(int nObjects);
+	CPlayerShader(int nObjects = 1);
 	virtual ~CPlayerShader();
 
-	//virtual void CreateShader(ID3D11Device *pd3dDevice);
-	virtual void BuildObjects(ID3D11Device *pd3dDevice);
-	virtual void Render(ID3D11DeviceContext *pd3dDeviceContext, CCamera *pCamera = NULL);
-
+	virtual void CreateShader(ID3D11Device *pd3dDevice);
+	virtual void Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera * pCamera);
+	
 	CPlayer *GetPlayer(int nIndex = 0) {
-		return((CPlayer *)m_ppObjects[nIndex]);
+	return((CPlayer *)m_ppObjects[nIndex]);
 	}
 
 };

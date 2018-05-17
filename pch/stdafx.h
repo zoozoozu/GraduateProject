@@ -112,3 +112,13 @@ DEFINE_GUID(WKPDID_D3DDebugObjectName,
 	0xa67e850a, 0xaa61, 0x4e0a, 0xbb, 0xf5, 0xac, 0xad, 0x32, 0xae, 0xf, 0xc);
 
 #define ANIFRAMETIME	0.0333333f
+
+enum Player_State
+{
+	IDLE = 0,
+	WALK,
+	BOMB,
+	DEAD,
+	ATTACK,
+	PLAYER_END
+};

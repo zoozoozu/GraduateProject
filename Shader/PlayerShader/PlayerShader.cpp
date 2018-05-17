@@ -4,53 +4,45 @@
 #include "Object/Player/TerrainPlayer/TerrainPlayer.h"
 #include "PlayerShader.h"
 
-
 CPlayerShader::CPlayerShader(int nObjects)
-	:CDiffusedShader(nObjects)
 {
-}
+	m_ppObjects = NULL;
 
+	m_nObjects = nObjects;
+	if (m_nObjects > 0)
+	{
+		m_ppObjects = new CGameObject*[m_nObjects];
+		for (int i = 0; i < m_nObjects; i++) m_ppObjects[i] = NULL;
+	}
+
+	m_pMaterial = NULL;
+	m_nIndexToAdd = 0;
+}
 
 CPlayerShader::~CPlayerShader()
 {
 }
 
-//void CPlayerShader::CreateShader(ID3D11Device * pd3dDevice)
-//{
-//	CShader::CreateShader(pd3dDevice);
-//}
-
-void CPlayerShader::BuildObjects(ID3D11Device * pd3dDevice)
+void CPlayerShader::CreateShader(ID3D11Device * pd3dDevice)
 {
-	m_nObjects = 1;
-	m_ppObjects = new CGameObject*[m_nObjects];
-
-	ID3D11DeviceContext *pd3dDeviceContext = NULL;
-	pd3dDevice->GetImmediateContext(&pd3dDeviceContext);
-
-	CMesh *pPlayerMesh = new CCubeMesh(pd3dDevice, 4.0f, 12.0f, 4.0f);
-	CTerrainPlayer *pAirplanePlayer = new CTerrainPlayer(1);
-	pAirplanePlayer->SetMesh(pPlayerMesh);
-	pAirplanePlayer->CreateShaderVariables(pd3dDevice);
-	pAirplanePlayer->ChangeCamera(pd3dDevice, THIRD_PERSON_CAMERA, 0.0f);
-
-	/*CCamera *pCamera = pAirplanePlayer->GetCamera();
-	pCamera->SetViewport(pd3dDeviceContext, 0, 0, FRAME_BUFFER_WIDTH, FRAME_BUFFER_HEIGHT, 0.0f, 1.0f);
-	pCamera->GenerateProjectionMatrix(1.01f, 5000.0f, ASPECT_RATIO, 60.0f);
-	pCamera->GenerateViewMatrix();
-
-	pAirplanePlayer->SetPosition(XMFLOAT3(0.0f, 10.0f, -50.0f));*/
-	m_ppObjects[0] = pAirplanePlayer;
-
-	if (pd3dDeviceContext) pd3dDeviceContext->Release();
-
+	D3D11_INPUT_ELEMENT_DESC d3dInputElements[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 1, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 2, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "WEIGHTS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 3, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "BONEINDICES", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 4, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	};
+	UINT nElements = ARRAYSIZE(d3dInputElements);
+	CreateVertexShaderFromFile(pd3dDevice, L"CharacterSkinned.fx", "VSSkinned", "vs_5_0", &m_pd3dVertexShader, d3dInputElements, nElements, &m_pd3dVertexLayout);
+	CreatePixelShaderFromFile(pd3dDevice, L"CharacterSkinned.fx", "PSSkinned", "ps_5_0", &m_pd3dPixelShader);
 }
 
 void CPlayerShader::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera * pCamera)
 {
 	//3인칭 카메라일 때 플레이어를 렌더링한다.
 	DWORD nCameraMode = (pCamera) ? pCamera->GetMode() : 0x00;
-	if (nCameraMode == THIRD_PERSON_CAMERA)
+	if (nCameraMode == THIRD_PERSON_CAMERA || nCameraMode == FIRST_PERSON_CAMERA)
 	{
 		CShader::Render(pd3dDeviceContext, pCamera);
 	}

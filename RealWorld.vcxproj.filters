@@ -109,6 +109,12 @@
     <Filter Include="Scene\Test">
       <UniqueIdentifier>{525c2e82-bb5b-448a-8d7b-b0ffe32cf8fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mesh\BillBoardMesh">
+      <UniqueIdentifier>{3ccb074a-5c92-4895-acdb-1ff46fb2011b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\BillboardObject">
+      <UniqueIdentifier>{6ffd3630-5f99-485b-83fd-4d6589f4e165}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -219,6 +225,12 @@
     <ClInclude Include="D2D_Operator.h">
       <Filter>pch</Filter>
     </ClInclude>
+    <ClInclude Include="Mesh\BillBoardMesh\BillboardMesh.h">
+      <Filter>Mesh\BillBoardMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\BillboardObject\BillboardObject.h">
+      <Filter>Object\BillboardObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch\stdafx.cpp">
@@ -320,6 +332,12 @@
     <ClCompile Include="Scene\Scene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Mesh\BillBoardMesh\BillboardMesh.cpp">
+      <Filter>Mesh\BillBoardMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\BillboardObject\BillboardObject.cpp">
+      <Filter>Object\BillboardObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="RealWorld.rc">
@@ -342,6 +360,9 @@
       <Filter>소스 파일</Filter>
     </FxCompile>
     <FxCompile Include="Light.fx">
+      <Filter>소스 파일</Filter>
+    </FxCompile>
+    <FxCompile Include="CharacterSkinned.fx">
       <Filter>소스 파일</Filter>
     </FxCompile>
   </ItemGroup>

@@ -65,6 +65,9 @@ private:
 	//마지막으로 마우스 버튼을 클릭할 때의 마우스 커서의 위치이다.
 	POINT	m_ptOldCursorPos;
 
+private:
+	CMesh *pSoldierMesh;
+
 public:
 	void CreateShaderVariables(ID3D11Device *pd3dDevice);
 	void UpdateShaderVariable(ID3D11DeviceContext *pd3dDeviceContext, LIGHTS *pLights);
@@ -79,6 +82,7 @@ public:
 	bool OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)	override;
 
 	bool OnCreate(wstring&& tag, CGameFramework* pFramework) override;
+	void BuildPlayer(ID3D11Device* pd3dDevice, ID3D11DeviceContext* pd3dDeviceContext);
 	void BuildObjects(ID3D11Device* pd3dDevice) override;
 	void ProcessInput(float fTimeElasped) override;
 	void AnimateObjects(float fTimeElapsed) override;

@@ -7,10 +7,13 @@
 
 #include "Mesh/AABBBoundingMesh/AABBBoundingMesh.h"
 #include "Mesh/FbxMesh/FbxModelMesh/FbxModelMesh.h"
+#include "Mesh/FbxMesh/FbxAniMesh/FbxAniMesh.h"
+
+#include "Object/HeightMapTerrain/HeightMapTerrain.h"
+#include "Object/Player/TerrainPlayer/TerrainPlayer.h"
 
 #include "Shader/SkyBoxShader/SkyBoxShader.h"
 #include "Shader/TerrainShader/TerrainShader.h"
-#include "Object/HeightMapTerrain/HeightMapTerrain.h"
 #include "Shader/InstancingShader/InstancingShader.h"
 #include "Shader/SceneShader/SceneShader.h"
 
@@ -216,26 +219,81 @@ bool CTestScene::OnCreate(wstring && tag, CGameFramework * pFramework)
 	CShader::CreateShaderVariables(m_pFramework->GetD3DDevice().Get());
 	CIlluminatedShader::CreateShaderVariables(m_pFramework->GetD3DDevice().Get());
 
+	// MakePlayer
+	BuildPlayer(m_pFramework->GetD3DDevice().Get(), m_pFramework->GetD3DDeviceContext().Get());
+
 	// BuildObjects
 	BuildObjects(m_pFramework->GetD3DDevice().Get());
+}
+
+void CTestScene::BuildPlayer(ID3D11Device * pd3dDevice, ID3D11DeviceContext* pd3dDeviceContext)
+{
+	//텍스쳐 리소스를 생성한다.
+	ID3D11ShaderResourceView *pd3dsrvTexture = NULL;
+	ID3D11SamplerState *pd3dSamplerState = NULL;
+
+	D3D11_SAMPLER_DESC d3dSamplerDesc;
+	ZeroMemory(&d3dSamplerDesc, sizeof(D3D11_SAMPLER_DESC));
+	d3dSamplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	d3dSamplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	d3dSamplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	d3dSamplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	d3dSamplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	d3dSamplerDesc.MinLOD = 0;
+	d3dSamplerDesc.MaxLOD = 0;
+	pd3dDevice->CreateSamplerState(&d3dSamplerDesc, &pd3dSamplerState);
+
+	CTexture *pSoldierTexture = new CTexture(1, 1, 0, 0);
+	D3DX11CreateShaderResourceViewFromFile(pd3dDevice, _T("../Data/Animation/Soldier_diffuse.png"), NULL, NULL, &pd3dsrvTexture, NULL);
+	pSoldierTexture->SetTexture(0, pd3dsrvTexture);
+	pSoldierTexture->SetSampler(0, pd3dSamplerState);
+	
+	pd3dsrvTexture->Release();
+	pd3dSamplerState->Release();
+
+	CMaterial *pNormalMaterial = new CMaterial();
+	pNormalMaterial->m_Material.m_d3dxcDiffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
+	pNormalMaterial->m_Material.m_d3dxcAmbient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	pNormalMaterial->m_Material.m_d3dxcSpecular = XMFLOAT4(1.0f, 1.0f, 1.0f, 5.0f);
+	pNormalMaterial->m_Material.m_d3dxcEmissive = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+
+	//1. 솔져메쉬
+	//pSoldierMesh[IDLE] = new CFbxAnimMesh(m_pFramework->GetD3DDevice().Get(), "../Data/Animation/eunbee_idle.data", 0.16f);
+	//pSoldierMesh[WALK] = new CFbxAnimMesh(m_pFramework->GetD3DDevice().Get(), "../Data/Animation/eunbee_walk.data", 0.16f);
+	//pSoldierMesh[BOMB] = new CFbxAnimMesh(m_pFramework->GetD3DDevice().Get(), "../Data/Animation/eunbee_bomb.data", 0.16f);
+	//pSoldierMesh[DEAD] = new CFbxAnimMesh(m_pFramework->GetD3DDevice().Get(), "../Data/Animation/eunbee_dead.data", 0.16f);
+	//pSoldierMesh[ATTACK] = new CFbxAnimMesh(m_pFramework->GetD3DDevice().Get(), "../Data/Animation/eunbee_attack.data", 0.16f);
+
+	pSoldierMesh = new CFbxAnimMesh(pd3dDevice, "../Data/Animation/Swat.data", 0.16f);
 
 	// Player 생성
 	m_pPlayerShader = new CPlayerShader(1);
-	m_pPlayerShader->CreateShader(m_pFramework->GetD3DDevice().Get());
-	m_pPlayerShader->BuildObjects(m_pFramework->GetD3DDevice().Get());
-	m_pPlayer = m_pPlayerShader->GetPlayer();
+	m_pPlayerShader->CreateShader(pd3dDevice);
+	m_pPlayerShader->BuildObjects(pd3dDevice);
 
+	CTerrainPlayer *pSoldierObject = new CTerrainPlayer(1);
+	pSoldierObject->SetMesh(pSoldierMesh);
+	pSoldierObject->SetMaterial(pNormalMaterial);
+	pSoldierObject->SetTexture(pSoldierTexture);
+	pSoldierObject->CreateShaderVariables(pd3dDevice);
+	pSoldierObject->ChangeCamera(pd3dDevice, THIRD_PERSON_CAMERA, 0.0f);
+
+	m_pCamera = pSoldierObject->GetCamera();
+	m_pCamera->SetViewport(pd3dDeviceContext, 0, 0, FRAME_BUFFER_WIDTH, FRAME_BUFFER_HEIGHT, 0.0f, 1.0f);
+	m_pCamera->GenerateProjectionMatrix(1.01f, 5000.0f, ASPECT_RATIO, 60.0f);
+	m_pCamera->GenerateViewMatrix();
+	
 	CHeightMapTerrain *pTerrain = GetTerrain();
-	m_pPlayer->SetPosition(XMFLOAT3(pTerrain->GetWidth()*0.5f, pTerrain->GetPeakHeight() + 1000.0f, pTerrain->GetLength()*0.5f));
+	pSoldierObject->SetPosition(XMFLOAT3(pTerrain->GetWidth()*0.5f, pTerrain->GetPeakHeight(), pTerrain->GetLength()*0.5f));
+	//pSoldierObject->SetRotate(-90.0f, -90.0f, -90.0f);
+	m_pPlayerShader->AddObject(pSoldierObject);
+
+	m_pPlayer = m_pPlayerShader->GetPlayer();
 
 	//플레이어의 위치가 변경될 때 지형의 정보에 따라 플레이어의 위치를 변경할 수 있도록 설정한다.
 	m_pPlayer->SetPlayerUpdatedContext(pTerrain);
 	//카메라의 위치가 변경될 때 지형의 정보에 따라 카메라의 위치를 변경할 수 있도록 설정한다.
 	m_pPlayer->SetCameraUpdatedContext(pTerrain);
-
-	m_pCamera = m_pPlayer->GetCamera();
-	m_pCamera->SetViewport(m_pFramework->GetD3DDeviceContext().Get(), 0, 0, FRAME_BUFFER_WIDTH, FRAME_BUFFER_HEIGHT, 0.0f, 1.0f);
-	m_pCamera->GenerateViewMatrix();
 }
 
 void CTestScene::BuildObjects(ID3D11Device* pd3dDevice)
@@ -440,11 +498,11 @@ void CTestScene::BuildObjects(ID3D11Device* pd3dDevice)
 	//CMesh *pUIHPCharge = new CBillboardMesh(pd3dDevice, FRAME_BUFFER_WIDTH / 2 - 125 * 1.6f, 200 * 1.6f, 250 * 1.6f, 150 * 1.6f);
 
 	////1. 솔져메쉬
-	//pSoldierMesh[IDLE] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/eunbee_idle.data", 0.16f);
-	//pSoldierMesh[WALK] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/eunbee_walk.data", 0.16f);
-	//pSoldierMesh[BOMB] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/eunbee_bomb.data", 0.16f);
-	//pSoldierMesh[DEAD] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/eunbee_dead.data", 0.16f);
-	//pSoldierMesh[ATTACK] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/eunbee_attack.data", 0.16f);
+	//pSoldierMesh[IDLE] = new CFbxAnimMesh(pd3dDevice, "../Data/Animation/eunbee_idle.data", 0.16f);
+	//pSoldierMesh[WALK] = new CFbxAnimMesh(pd3dDevice, "../Data/Animation/eunbee_walk.data", 0.16f);
+	//pSoldierMesh[BOMB] = new CFbxAnimMesh(pd3dDevice, "../Data/Animation/eunbee_bomb.data", 0.16f);
+	//pSoldierMesh[DEAD] = new CFbxAnimMesh(pd3dDevice, "../Data/Animation/eunbee_dead.data", 0.16f);
+	//pSoldierMesh[ATTACK] = new CFbxAnimMesh(pd3dDevice, "../Data/Animation/eunbee_attack.data", 0.16f);
 
 	////2. 닌자 메쉬
 	//pNinjaMesh[IDLE] = new CFbxAnimMesh(pd3dDevice, "Data/Animation/Ninja_idle.data", 0.8f);
@@ -475,7 +533,7 @@ void CTestScene::BuildObjects(ID3D11Device* pd3dDevice)
 	//// Occupied UI
 	//CMesh *pInGameTextMesh = new CBillboardMesh(pd3dDevice, 160, 160, 600, 220);
 
-	m_nShaders = 3;
+	m_nShaders = 2;
 	m_ppShaders = new CShader*[m_nShaders];
 
 	m_ppShaders[0] = new CSkyBoxShader(1);
@@ -485,10 +543,6 @@ void CTestScene::BuildObjects(ID3D11Device* pd3dDevice)
 	m_ppShaders[1] = new CTerrainShader(1);
 	m_ppShaders[1]->CreateShader(pd3dDevice);
 	m_ppShaders[1]->BuildObjects(pd3dDevice);
-
-	m_ppShaders[2] = new CSceneShader(1);
-	m_ppShaders[2]->CreateShader(pd3dDevice);
-	m_ppShaders[2]->BuildObjects(pd3dDevice);
 
 #pragma region "CONTAINER MAP"
 
@@ -608,32 +662,32 @@ void CTestScene::ProcessInput(float fTimeElapsed)
 
 void CTestScene::AnimateObjects(float fTimeElapsed)
 {
-	if (m_pLights && m_pd3dcbLights)
-	{
-		//현재 카메라의 위치 벡터를 조명을 나타내는 상수 버퍼에 설정한다.
-		XMFLOAT3 d3dxvCameraPosition = m_pCamera->GetPosition();
-		m_pLights->m_d3dxvCameraPosition = XMFLOAT4(d3dxvCameraPosition.x, d3dxvCameraPosition.y, d3dxvCameraPosition.z, 1.0f);
+	//if (m_pLights && m_pd3dcbLights)
+	//{
+	//	//현재 카메라의 위치 벡터를 조명을 나타내는 상수 버퍼에 설정한다.
+	//	XMFLOAT3 d3dxvCameraPosition = m_pCamera->GetPosition();
+	//	m_pLights->m_d3dxvCameraPosition = XMFLOAT4(d3dxvCameraPosition.x, d3dxvCameraPosition.y, d3dxvCameraPosition.z, 1.0f);
 
-		//점 조명이 지형의 중앙을 중심으로 회전하도록 설정한다.
-		CHeightMapTerrain *pTerrain = GetTerrain();
-		static XMFLOAT3 d3dxvRotated = XMFLOAT3(pTerrain->GetWidth() * 0.1f, 0.0f, 0.0f);
-		XMMATRIX d3dxmtxRotate;
-		d3dxmtxRotate = XMMatrixRotationRollPitchYaw(0.0f ,(float)XMConvertToRadians(30.0f*fTimeElapsed) , 0.0f);
-		XMVECTOR xmvRotated = XMVector3TransformCoord(XMLoadFloat3(&d3dxvRotated), d3dxmtxRotate);
-		XMStoreFloat3(&d3dxvRotated, xmvRotated);
-		XMFLOAT3 d3dxvTerrainCenter = XMFLOAT3(pTerrain->GetWidth()*0.5f, pTerrain->GetPeakHeight() + 5.0f, pTerrain->GetLength()*0.5f);
-		m_pLights->m_pLights[0].m_d3dxvPosition = XMFLOAT3(d3dxvTerrainCenter.x + d3dxvRotated.x, d3dxvTerrainCenter.y + d3dxvRotated.y, d3dxvTerrainCenter.z + d3dxvRotated.z);
-		m_pLights->m_pLights[0].m_fRange = pTerrain->GetPeakHeight();
+	//	//점 조명이 지형의 중앙을 중심으로 회전하도록 설정한다.
+	//	CHeightMapTerrain *pTerrain = GetTerrain();
+	//	static XMFLOAT3 d3dxvRotated = XMFLOAT3(pTerrain->GetWidth() * 0.1f, 0.0f, 0.0f);
+	//	XMMATRIX d3dxmtxRotate;
+	//	d3dxmtxRotate = XMMatrixRotationRollPitchYaw(0.0f ,(float)XMConvertToRadians(30.0f*fTimeElapsed) , 0.0f);
+	//	XMVECTOR xmvRotated = XMVector3TransformCoord(XMLoadFloat3(&d3dxvRotated), d3dxmtxRotate);
+	//	XMStoreFloat3(&d3dxvRotated, xmvRotated);
+	//	XMFLOAT3 d3dxvTerrainCenter = XMFLOAT3(pTerrain->GetWidth()*0.5f, pTerrain->GetPeakHeight() + 5.0f, pTerrain->GetLength()*0.5f);
+	//	m_pLights->m_pLights[0].m_d3dxvPosition = XMFLOAT3(d3dxvTerrainCenter.x + d3dxvRotated.x, d3dxvTerrainCenter.y + d3dxvRotated.y, d3dxvTerrainCenter.z + d3dxvRotated.z);
+	//	m_pLights->m_pLights[0].m_fRange = pTerrain->GetPeakHeight();
 
-		/*두 번째 조명은 플레이어가 가지고 있는 손전등(스팟 조명)이다. 그러므로 플레이어의 위치와 방향이 바뀌면 현재 플레이어의 위치와 
-		z-축 방향 벡터를 스팟 조명의 위치와 방향으로 설정한다.*/
-		CPlayer *pPlayer = m_pCamera->GetPlayer();
-		m_pLights->m_pLights[1].m_d3dxvPosition = pPlayer->GetPosition();
-		m_pLights->m_pLights[1].m_d3dxvDirection = pPlayer->GetLookVector();
+	//	/*두 번째 조명은 플레이어가 가지고 있는 손전등(스팟 조명)이다. 그러므로 플레이어의 위치와 방향이 바뀌면 현재 플레이어의 위치와 
+	//	z-축 방향 벡터를 스팟 조명의 위치와 방향으로 설정한다.*/
+	//	CPlayer *pPlayer = m_pCamera->GetPlayer();
+	//	m_pLights->m_pLights[1].m_d3dxvPosition = pPlayer->GetPosition();
+	//	m_pLights->m_pLights[1].m_d3dxvDirection = pPlayer->GetLookVector();
 
-		m_pLights->m_pLights[3].m_d3dxvPosition = XMFLOAT3(pPlayer->GetPosition().x + 0.0f, pPlayer->GetPosition().y + 40.0f,
-			pPlayer->GetPosition().z + 0.0f);
-	}
+	//	m_pLights->m_pLights[3].m_d3dxvPosition = XMFLOAT3(pPlayer->GetPosition().x + 0.0f, pPlayer->GetPosition().y + 40.0f,
+	//		pPlayer->GetPosition().z + 0.0f);
+	//}
 
 	for (int i = 0; i < m_nShaders; i++)
 	{
@@ -645,6 +699,8 @@ void CTestScene::AnimateObjects(float fTimeElapsed)
 		m_ppInstancingShaders[i]->AnimateObjects(fTimeElapsed);
 	}
 
+	if (m_pPlayerShader) m_pPlayerShader->AnimateObjects(fTimeElapsed);
+
 }
 
 void CTestScene::Render(ID3D11DeviceContext* pd3dDeviceContext)
@@ -652,7 +708,6 @@ void CTestScene::Render(ID3D11DeviceContext* pd3dDeviceContext)
 	//CCamera *pCamera = (m_pPlayer) ? m_pPlayer->GetCamera() : NULL;
 
 	if (m_pLights && m_pd3dcbLights) UpdateShaderVariable(pd3dDeviceContext, m_pLights);
-
 	if (m_pPlayer) m_pPlayer->UpdateShaderVariables(pd3dDeviceContext);
 
 	for (int i = 0; i < m_nShaders; i++)

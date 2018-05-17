@@ -162,12 +162,14 @@
     <ClInclude Include="Material\Material.h" />
     <ClInclude Include="Material\Texture\Texture.h" />
     <ClInclude Include="Mesh\AABBBoundingMesh\AABBBoundingMesh.h" />
+    <ClInclude Include="Mesh\BillBoardMesh\BillboardMesh.h" />
     <ClInclude Include="Mesh\FbxMesh\FbxAniMesh\FbxAniMesh.h" />
     <ClInclude Include="Mesh\FbxMesh\FbxMesh.h" />
     <ClInclude Include="Mesh\FbxMesh\FbxModelMesh\FbxModelMesh.h" />
     <ClInclude Include="Mesh\Mesh.h" />
     <ClInclude Include="Mesh\SkyBoxMesh\SkyBoxMesh.h" />
     <ClInclude Include="Mesh\TerrainMesh\TerrainMesh.h" />
+    <ClInclude Include="Object\BillboardObject\BillboardObject.h" />
     <ClInclude Include="Object\HeightMapTerrain\HeightMapTerrain.h" />
     <ClInclude Include="Object\Object.h" />
     <ClInclude Include="Object\Player\Player.h" />
@@ -199,12 +201,14 @@
     <ClCompile Include="Material\Material.cpp" />
     <ClCompile Include="Material\Texture\Texture.cpp" />
     <ClCompile Include="Mesh\AABBBoundingMesh\AABBBoundingMesh.cpp" />
+    <ClCompile Include="Mesh\BillBoardMesh\BillboardMesh.cpp" />
     <ClCompile Include="Mesh\FbxMesh\FbxAniMesh\FbxAniMesh.cpp" />
     <ClCompile Include="Mesh\FbxMesh\FbxMesh.cpp" />
     <ClCompile Include="Mesh\FbxMesh\FbxModelMesh\FbxModelMesh.cpp" />
     <ClCompile Include="Mesh\Mesh.cpp" />
     <ClCompile Include="Mesh\SkyBoxMesh\SkyBoxMesh.cpp" />
     <ClCompile Include="Mesh\TerrainMesh\TerrainMesh.cpp" />
+    <ClCompile Include="Object\BillboardObject\BillboardObject.cpp" />
     <ClCompile Include="Object\HeightMapTerrain\HeightMapTerrain.cpp" />
     <ClCompile Include="Object\Object.cpp" />
     <ClCompile Include="Object\Player\Player.cpp" />
@@ -235,6 +239,9 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="CharacterSkinned.fx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Effect.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>

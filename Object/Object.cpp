@@ -79,6 +79,7 @@ void CGameObject::SetMesh(CMesh *pMesh, int nIndex)
 
 void CGameObject::Animate(float fTimeElapsed)
 {
+	// Local과 World의 곱이 필요하다.
 }
 
 void CGameObject::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera *pCamera)
