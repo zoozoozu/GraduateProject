@@ -13,7 +13,7 @@ CSkyBox::~CSkyBox()
 {
 }
 
-void CSkyBox::Render(ID3D11DeviceContext *pd3dDeviceContext, CCamera *pCamera)
+void CSkyBox::Render(ID3D11DeviceContext *pd3dDeviceContext, shared_ptr<CCamera>pCamera)
 {
 	//스카이 박스 객체의 위치를 카메라의 위치로 변경한다.
 	XMFLOAT3 d3dxvCameraPos = pCamera->GetPosition();

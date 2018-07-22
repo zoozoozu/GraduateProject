@@ -34,7 +34,7 @@ void CPlayerShader::BuildObjects(ID3D11Device * pd3dDevice)
 	pAirplanePlayer->CreateShaderVariables(pd3dDevice);
 	pAirplanePlayer->ChangeCamera(pd3dDevice, THIRD_PERSON_CAMERA, 0.0f);
 
-	/*CCamera *pCamera = pAirplanePlayer->GetCamera();
+	/*shared_ptr<CCamera>pCamera = pAirplanePlayer->GetCamera();
 	pCamera->SetViewport(pd3dDeviceContext, 0, 0, FRAME_BUFFER_WIDTH, FRAME_BUFFER_HEIGHT, 0.0f, 1.0f);
 	pCamera->GenerateProjectionMatrix(1.01f, 5000.0f, ASPECT_RATIO, 60.0f);
 	pCamera->GenerateViewMatrix();
@@ -46,7 +46,7 @@ void CPlayerShader::BuildObjects(ID3D11Device * pd3dDevice)
 
 }
 
-void CPlayerShader::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera * pCamera)
+void CPlayerShader::Render(ID3D11DeviceContext * pd3dDeviceContext, shared_ptr<CCamera> pCamera)
 {
 	//3인칭 카메라일 때 플레이어를 렌더링한다.
 	DWORD nCameraMode = (pCamera) ? pCamera->GetMode() : 0x00;

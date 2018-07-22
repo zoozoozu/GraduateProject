@@ -232,7 +232,7 @@ void CGameFramework::FrameAdvance()
 	
 	//if (m_pPlayer) m_pPlayer->UpdateShaderVariables(m_pd3dDeviceContext);
 	//
-	//CCamera *pCamera = (m_pPlayer) ? m_pPlayer->GetCamera() : NULL;
+	//shared_ptr<CCamera>pCamera = (m_pPlayer) ? m_pPlayer->GetCamera() : NULL;
 	if (m_pCurrentScene) m_pCurrentScene->Render(m_pd3dDeviceContext.Get());
 	
 	//3인칭 카메라일 때 플레이어를 렌더링한다.
@@ -319,7 +319,7 @@ LRESULT CGameFramework::OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WP
 
 		CreateRenderTargetView();
 
-		/*	CCamera *pCamera = m_pPlayer->GetCamera();
+		/*	shared_ptr<CCamera>pCamera = m_pPlayer->GetCamera();
 			if (pCamera)
 				pCamera->SetViewport(m_pd3dDeviceContext, 0, 0,
 					m_nWndClientWidth, m_nWndClientHeight, 0.0f, 1.0f);*/

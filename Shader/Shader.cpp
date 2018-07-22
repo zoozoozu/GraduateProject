@@ -182,7 +182,7 @@ void CShader::OnPrepareRender(ID3D11DeviceContext * pd3dDeviceContext)
 	pd3dDeviceContext->PSSetShader(m_pd3dPixelShader, NULL, 0);
 }
 
-void CShader::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera *pCamera)
+void CShader::Render(ID3D11DeviceContext * pd3dDeviceContext, shared_ptr<CCamera>pCamera)
 {
 	OnPrepareRender(pd3dDeviceContext);
 

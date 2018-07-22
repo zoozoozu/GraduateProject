@@ -9,7 +9,7 @@ public:
 
 	//virtual void CreateShader(ID3D11Device *pd3dDevice);
 	virtual void BuildObjects(ID3D11Device *pd3dDevice);
-	virtual void Render(ID3D11DeviceContext *pd3dDeviceContext, CCamera *pCamera = NULL);
+	virtual void Render(ID3D11DeviceContext *pd3dDeviceContext, shared_ptr<CCamera>pCamera = NULL);
 
 	CPlayer *GetPlayer(int nIndex = 0) {
 		return((CPlayer *)m_ppObjects[nIndex]);

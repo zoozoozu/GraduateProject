@@ -3,7 +3,7 @@
 #include "Camera/SpaceShipCamera/SpaceShipCamera.h"
 
 
-CSpaceShipCamera::CSpaceShipCamera(CCamera *pCamera) : CCamera(pCamera)
+CSpaceShipCamera::CSpaceShipCamera(shared_ptr<CCamera>pCamera) : CCamera(pCamera)
 {
 	m_nMode = SPACESHIP_CAMERA;
 }

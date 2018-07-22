@@ -32,7 +32,7 @@ CPlayer::CPlayer(int nMeshes)
 CPlayer::~CPlayer()
 {
 	if (m_pCamera)
-		delete m_pCamera;
+		m_pCamera.reset();
 }
 
 void CPlayer::CreateShaderVariables(ID3D11Device * pd3dDevice)
@@ -247,20 +247,20 @@ void CPlayer::OnCameraUpdated(float fTimeElapsed)
 {
 }
 
-CCamera * CPlayer::OnChangeCamera(ID3D11Device * pd3dDevice, DWORD nNewCameraMode, DWORD nCurrentCameraMode)
+shared_ptr<CCamera> CPlayer::OnChangeCamera(ID3D11Device * pd3dDevice, DWORD nNewCameraMode, DWORD nCurrentCameraMode)
 {
-	CCamera *pNewCamera = NULL;
+	shared_ptr<CCamera> pNewCamera = NULL;
 	//새로운 카메라의 모드에 따라 카메라를 새로 생성한다.
 	switch (nNewCameraMode)
 	{
 	case FIRST_PERSON_CAMERA:
-		pNewCamera = new CFirstPersonCamera(m_pCamera);
+		pNewCamera = make_shared<CFirstPersonCamera>(m_pCamera);
 		break;
 	case THIRD_PERSON_CAMERA:
-		pNewCamera = new CThirdPersonCamera(m_pCamera);
+		pNewCamera = make_shared<CThirdPersonCamera>(m_pCamera);
 		break;
 	case SPACESHIP_CAMERA:
-		pNewCamera = new CSpaceShipCamera(m_pCamera);
+		pNewCamera = make_shared<CSpaceShipCamera>(m_pCamera);
 		break;
 	}
 
@@ -306,7 +306,7 @@ CCamera * CPlayer::OnChangeCamera(ID3D11Device * pd3dDevice, DWORD nNewCameraMod
 		pNewCamera->SetPlayer(this);
 	}
 	
-	if (m_pCamera) delete m_pCamera;
+	if (m_pCamera) m_pCamera.reset();
 
 	return(pNewCamera);
 }
@@ -331,7 +331,7 @@ void CPlayer::OnPrepareRender()
 	m_xmf4x4ToParentTransform._43 = m_d3dxvPosition.z;
 }
 
-void CPlayer::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera *pCamera)
+void CPlayer::Render(ID3D11DeviceContext * pd3dDeviceContext, shared_ptr<CCamera>pCamera)
 {
 	CGameObject::UpdateTransform(NULL);
 	CGameObject::Render(pd3dDeviceContext, pCamera);

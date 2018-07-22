@@ -3,7 +3,7 @@
 #include "Camera/ThirdPersonCamera/ThirdPersonCamera.h"
 
 
-CThirdPersonCamera::CThirdPersonCamera(CCamera *pCamera)
+CThirdPersonCamera::CThirdPersonCamera(shared_ptr<CCamera>pCamera)
 	:CCamera(pCamera)
 {
 	m_nMode = THIRD_PERSON_CAMERA;

@@ -71,7 +71,7 @@ public:
 	virtual void ReleaseObjects();
 	virtual void AnimateObjects(float fTimeElapsed);
 	virtual void OnPrepareRender(ID3D11DeviceContext *pd3dDeviceContext);
-	virtual void Render(ID3D11DeviceContext *pd3dDeviceContext, CCamera *pCamera = NULL);
+	virtual void Render(ID3D11DeviceContext *pd3dDeviceContext, shared_ptr<CCamera>pCamera = NULL);
 
 	virtual void AddObject(CGameObject *pGameObject);
 };

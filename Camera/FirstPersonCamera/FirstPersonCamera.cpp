@@ -3,7 +3,7 @@
 #include "Camera/FirstPersonCamera/FirstPersonCamera.h"
 
 
-CFirstPersonCamera::CFirstPersonCamera(CCamera *pCamera)
+CFirstPersonCamera::CFirstPersonCamera(shared_ptr<CCamera>pCamera)
 	:CCamera(pCamera)
 {
 	m_nMode = FIRST_PERSON_CAMERA;

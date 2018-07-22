@@ -34,7 +34,7 @@ void CSceneShader::BuildObjects(ID3D11Device * pd3dDevice)
 	m_ppObjects[0] = pBuildingModel;
 }
 
-void CSceneShader::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera * pCamera)
+void CSceneShader::Render(ID3D11DeviceContext * pd3dDeviceContext, shared_ptr<CCamera> pCamera)
 {
 	CDiffusedShader::Render(pd3dDeviceContext, pCamera);
 }

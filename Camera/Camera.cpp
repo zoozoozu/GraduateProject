@@ -2,7 +2,7 @@
 #include "Object/Player/Player.h"
 #include "Camera/Camera.h"
 
-CCamera::CCamera(CCamera *pCamera)
+CCamera::CCamera(shared_ptr<CCamera>pCamera)
 {
 	if (pCamera)
 	{

@@ -61,7 +61,7 @@ void CInstancingShader::BuildObjects(ID3D11Device * pd3dDevice, CMaterial * pMat
 }
 
 
-void CInstancingShader::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera * pCamera)
+void CInstancingShader::Render(ID3D11DeviceContext * pd3dDeviceContext, shared_ptr<CCamera> pCamera)
 {
 	OnPrepareRender(pd3dDeviceContext);
 

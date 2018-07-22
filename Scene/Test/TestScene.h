@@ -60,7 +60,7 @@ private:
 	CPlayer *m_pPlayer;
 	CPlayerShader *m_pPlayerShader;
 
-	CCamera *m_pCamera;
+	shared_ptr<CCamera> m_pCamera;
 
 	//마지막으로 마우스 버튼을 클릭할 때의 마우스 커서의 위치이다.
 	POINT	m_ptOldCursorPos;
@@ -86,7 +86,7 @@ public:
 
 	void ReleaseObjects();
 
-	void SetCamera(CCamera *pCamera) { m_pCamera = pCamera; }
+	void SetCamera(shared_ptr<CCamera> pCamera) { m_pCamera = pCamera; }
 
 	CHeightMapTerrain *GetTerrain();
 };

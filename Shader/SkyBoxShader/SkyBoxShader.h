@@ -7,7 +7,7 @@ public:
 	virtual ~CSkyBoxShader();
 
 	virtual void BuildObjects(ID3D11Device *pd3dDevice);
-	virtual void Render(ID3D11DeviceContext *pd3dDeviceContext, CCamera *pCamera);
+	virtual void Render(ID3D11DeviceContext *pd3dDeviceContext, shared_ptr<CCamera>pCamera);
 };
 
 

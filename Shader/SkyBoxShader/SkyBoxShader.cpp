@@ -21,7 +21,7 @@ void CSkyBoxShader::BuildObjects(ID3D11Device *pd3dDevice)
 	m_ppObjects[0] = pSkyBox;
 }
 
-void CSkyBoxShader::Render(ID3D11DeviceContext *pd3dDeviceContext, CCamera *pCamera)
+void CSkyBoxShader::Render(ID3D11DeviceContext *pd3dDeviceContext, shared_ptr<CCamera>pCamera)
 {
 	CShader::OnPrepareRender(pd3dDeviceContext);
 

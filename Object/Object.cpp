@@ -81,7 +81,7 @@ void CGameObject::Animate(float fTimeElapsed)
 {
 }
 
-void CGameObject::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera *pCamera)
+void CGameObject::Render(ID3D11DeviceContext * pd3dDeviceContext, shared_ptr<CCamera>pCamera)
 {
 	CShader::UpdateShaderVariable(pd3dDeviceContext, XMLoadFloat4x4(&m_xmf4x4World));
 	
@@ -247,7 +247,7 @@ XMVECTOR CGameObject::GetRightXMV()
 	return xmvRight;
 }
 
-bool CGameObject::IsVisible(CCamera *pCamera)
+bool CGameObject::IsVisible(shared_ptr<CCamera>pCamera)
 {
 	OnPrepareRender();
 

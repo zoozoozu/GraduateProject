@@ -49,7 +49,7 @@ protected:
 	XMFLOAT4 m_d3dxFrustumPlanes[6];
 
 public:
-	CCamera(CCamera *pCamera);
+	CCamera(shared_ptr<CCamera>pCamera);
 	virtual ~CCamera();
 
 public:

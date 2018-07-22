@@ -40,7 +40,7 @@ protected:
 	//카메라의 위치가 바뀔 때마다 호출되는 OnCameraUpdated() 함수에서 사용하는 데이터이다.
 	LPVOID m_pCameraUpdatedContext;
 
-	CCamera *m_pCamera;
+	shared_ptr<CCamera> m_pCamera;
 
 public:
 	XMFLOAT3 GetPosition() { return(m_d3dxvPosition); }
@@ -103,21 +103,21 @@ public:
 	void SetCameraUpdatedContext(LPVOID pContext) { m_pCameraUpdatedContext = pContext; }
 
 	//카메라를 변경할 때 호출되는 함수이다.
-	CCamera *OnChangeCamera(ID3D11Device *pd3dDevice, DWORD nNewCameraMode, DWORD nCurrentCameraMode);
+	shared_ptr<CCamera>OnChangeCamera(ID3D11Device *pd3dDevice, DWORD nNewCameraMode, DWORD nCurrentCameraMode);
 
 	virtual void ChangeCamera(ID3D11Device *pd3dDevice, DWORD nNewCameraMode, float fTimeElapsed);
 	//플레이어의 위치와 회전축으로부터 월드 변환 행렬을 생성하는 함수이다.
 	virtual void OnPrepareRender();
 	//플레이어의 카메라가 3인칭 카메라일 때 플레이어 메쉬를 렌더링한다.
-	virtual void Render(ID3D11DeviceContext *pd3dDeviceContext, CCamera *pCamera);
+	virtual void Render(ID3D11DeviceContext *pd3dDeviceContext, shared_ptr<CCamera> pCamera);
 
 public:
 	CPlayer(int nMeshes = 1);
 	~CPlayer();
 
 	// 플레이어의 현재 카메라를 설정하고 반환하는 멤버 함수를 선언한다.
-	void SetCamera(CCamera *pCamera) { m_pCamera = pCamera; }
-	CCamera *GetCamera() { return (m_pCamera); }
+	void SetCamera(shared_ptr<CCamera> pCamera) { m_pCamera = pCamera; }
+	shared_ptr<CCamera> GetCamera() { return (m_pCamera); }
 
 	// 플레이어의 상수 버퍼를 생성하고 갱신하는 멤버 함수를 선언한다.
 	void CreateShaderVariables(ID3D11Device *pd3dDevice);

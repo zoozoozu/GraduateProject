@@ -4,7 +4,7 @@ class CThirdPersonCamera :
 	public CCamera
 {
 public:
-	CThirdPersonCamera(CCamera *pCamera);
+	CThirdPersonCamera(shared_ptr<CCamera>pCamera);
 	virtual ~CThirdPersonCamera() { }
 
 	virtual void Update(XMVECTOR& d3dxvLookAt, float fTimeScale);

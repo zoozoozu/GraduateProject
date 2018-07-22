@@ -40,7 +40,7 @@ public:
 	XMFLOAT4X4						m_xmf4x4World;
 
 	virtual void Animate(float fTimeElapsed);
-	virtual void Render(ID3D11DeviceContext *pd3dDeviceContext, CCamera *pCamera);
+	virtual void Render(ID3D11DeviceContext *pd3dDeviceContext, shared_ptr<CCamera>pCamera);
 
 	//게임 객체는 하나의 재질을 가질 수 있다.
 	CMaterial *m_pMaterial;
@@ -84,6 +84,6 @@ public:
 	//객체를 렌더링하기 전에 호출되는 함수이다.
 	virtual void OnPrepareRender() { }
 
-	bool IsVisible(CCamera *pCamera = nullptr);
+	bool IsVisible(shared_ptr<CCamera>pCamera = nullptr);
 
 };

@@ -82,7 +82,7 @@ void CTerrainPlayer::OnCameraUpdated(float fTimeElapsed)
 {
 	CHeightMapTerrain *pTerrain = (CHeightMapTerrain *)m_pCameraUpdatedContext;
 	XMFLOAT3 d3dxvScale = pTerrain->GetScale();
-	CCamera *pCamera = GetCamera();
+	shared_ptr<CCamera>pCamera = GetCamera();
 	XMFLOAT3 d3dxvCameraPosition = pCamera->GetPosition();
 	int z = (int)(d3dxvCameraPosition.z / d3dxvScale.z);
 	bool bReverseQuad = ((z % 2) != 0);
@@ -95,7 +95,7 @@ void CTerrainPlayer::OnCameraUpdated(float fTimeElapsed)
 		//3인칭 카메라의 경우 카메라의 y-위치가 변경되었으므로 카메라가 플레이어를 바라보도록 한다.
 		if (pCamera->GetMode() == THIRD_PERSON_CAMERA)
 		{
-			CThirdPersonCamera *p3rdPersonCamera = (CThirdPersonCamera *)pCamera;
+			shared_ptr<CThirdPersonCamera> p3rdPersonCamera = dynamic_pointer_cast<CThirdPersonCamera>(pCamera);
 			p3rdPersonCamera->SetLookAt(XMLoadFloat3(&GetPosition()));
 		}
 	}

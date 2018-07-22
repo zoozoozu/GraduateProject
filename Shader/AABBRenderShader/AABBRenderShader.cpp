@@ -49,7 +49,7 @@ void CAABBRenderShader::UpdateConstBuffer(ID3D11DeviceContext * pd3dDeviceContex
 	pd3dDeviceContext->VSSetConstantBuffers(VS_SLOT_AABB, 1, &m_pd3dVSBuffer);
 }
 
-void CAABBRenderShader::Render(ID3D11DeviceContext * pd3dDeviceContext, CCamera * pCamera, AABB aabb, CGameObject * pGameObject)
+void CAABBRenderShader::Render(ID3D11DeviceContext * pd3dDeviceContext, shared_ptr<CCamera> pCamera, AABB aabb, CGameObject * pGameObject)
 {
 	XMFLOAT3 fSize;
 	fSize.x = (aabb.m_d3dxvMaximum.x - aabb.m_d3dxvMinimum.x) * 0.5f;

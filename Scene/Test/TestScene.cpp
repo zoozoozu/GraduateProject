@@ -649,7 +649,7 @@ void CTestScene::AnimateObjects(float fTimeElapsed)
 
 void CTestScene::Render(ID3D11DeviceContext* pd3dDeviceContext)
 {
-	//CCamera *pCamera = (m_pPlayer) ? m_pPlayer->GetCamera() : NULL;
+	//shared_ptr<CCamera>pCamera = (m_pPlayer) ? m_pPlayer->GetCamera() : NULL;
 
 	if (m_pLights && m_pd3dcbLights) UpdateShaderVariable(pd3dDeviceContext, m_pLights);
 
